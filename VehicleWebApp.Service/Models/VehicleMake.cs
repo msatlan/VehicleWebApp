@@ -17,6 +17,5 @@ namespace VehicleWebApp.Service.Models
         public string Abbreviation { get; set; }
 
         public IList<VehicleModel> Models { get; set; }
-
     }
 }
