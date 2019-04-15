@@ -11,7 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using VehicleWebApp.MVC.Repositories;
+using VehicleWebApp.MVC.Services;
 using VehicleWebApp.Service.Contexts;
+using VehicleWebApp.Service.Repositories;
+using VehicleWebApp.Service.Services;
 
 namespace VehicleWebApp.MVC
 {
@@ -29,8 +33,14 @@ namespace VehicleWebApp.MVC
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // register db context with dependency injection
+            // Register db context with dependency injection
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext"), b => b.MigrationsAssembly("VehicleWebApp.MVC")));
+
+            // Bind IVehicleMakeService to VehicleMakeService
+            services.AddScoped<IVehicleMakeService, VehicleMakeService>();
+
+            // Bind IVehicleMakeRepository to VehicleMakeRepository
+            services.AddScoped<IVehicleMakeRepository, VehicleMakeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
