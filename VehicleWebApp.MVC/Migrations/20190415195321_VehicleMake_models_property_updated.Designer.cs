@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleWebApp.Service.Contexts;
 
 namespace VehicleWebApp.MVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190415195321_VehicleMake_models_property_updated")]
+    partial class VehicleMake_models_property_updated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,20 +72,20 @@ namespace VehicleWebApp.MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("27a23679-9a05-40b0-ad23-66d89d841897"),
+                            Id = new Guid("0f6ec4b0-24fe-4e98-96a0-5c479d8e180b"),
                             MakeId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "206"
                         },
                         new
                         {
-                            Id = new Guid("bad150af-396c-4860-b46f-ee67cfa017fe"),
+                            Id = new Guid("ea226a52-0e48-4d4f-8a68-a7407d93c45c"),
                             Abbreviation = "Dvjestosedmica",
                             MakeId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "207"
                         },
                         new
                         {
-                            Id = new Guid("b77a87ff-a399-45b1-ae64-b9830d1556d9"),
+                            Id = new Guid("c1e973d2-88b0-414d-a1f2-69b87f9a5d3c"),
                             MakeId = new Guid("00000000-0000-0000-0000-000000000002"),
                             Name = "M4"
                         });

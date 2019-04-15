@@ -32,17 +32,17 @@ namespace VehicleWebApp.Service.Contexts
             builder.Entity<VehicleModel>().HasKey(p => p.Id);
 
             // Seed initial data to database
-            builder.Entity<VehicleMake>().HasData
-            (
-                new VehicleMake { Id = new Guid ("00000000-0000-0000-0000-000000000001"), Name = "Peugeot" },
-                new VehicleMake { Id = new Guid("00000000-0000-0000-0000-000000000002"), Name = "BMW", Abbreviation = "Bembara"}
-            );
-
             builder.Entity<VehicleModel>().HasData
             (
                 new VehicleModel { Id = Guid.NewGuid(), Name = "206", MakeId = new Guid("00000000-0000-0000-0000-000000000001") },
                 new VehicleModel { Id = Guid.NewGuid(), Name = "207", Abbreviation = "Dvjestosedmica", MakeId = new Guid("00000000-0000-0000-0000-000000000001") },
                 new VehicleModel { Id = Guid.NewGuid(), Name = "M4", MakeId = new Guid("00000000-0000-0000-0000-000000000002") }
+            );
+
+            builder.Entity<VehicleMake>().HasData
+            (
+                new VehicleMake { Id = new Guid ("00000000-0000-0000-0000-000000000001"), Name = "Peugeot" },
+                new VehicleMake { Id = new Guid("00000000-0000-0000-0000-000000000002"), Name = "BMW", Abbreviation = "Bembara"}
             );
         }
     }
