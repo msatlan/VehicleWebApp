@@ -12,7 +12,9 @@ namespace VehicleWebApp.MVC.Mapping
     {
         public ModelToViewModelProfile()
         {
-            CreateMap<VehicleMake, VehicleMakeViewModel>();
+            CreateMap<VehicleMake, VehicleMakeViewModel>()
+                .ForMember(dest => dest.Models, opts => opts.MapFrom(src => src.Models.Select(model => model.Name).ToList()));
+   
         }
     }
 }

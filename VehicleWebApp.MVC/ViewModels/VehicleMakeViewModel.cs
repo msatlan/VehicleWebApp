@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleWebApp.Service.Models;
 
 namespace VehicleWebApp.MVC.ViewModels
 {
@@ -12,5 +13,7 @@ namespace VehicleWebApp.MVC.ViewModels
         public string Name { get; set; }
 
         public string Abbreviation { get; set; }
+
+        public List<string> Models { get; set; }
     }
 }

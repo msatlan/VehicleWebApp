@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using VehicleWebApp.Service.Contexts;
 
@@ -15,6 +17,9 @@ namespace VehicleWebApp.Service.Repositories
         public BaseRepository(AppDbContext context)
         {
             _context = context;
+
+            // load related entities
+            _context.VehicleMakes.Include(vehicle => vehicle.Models).ToList();
         }
     }
 }

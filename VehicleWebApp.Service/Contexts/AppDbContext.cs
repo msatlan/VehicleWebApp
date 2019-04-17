@@ -42,7 +42,7 @@ namespace VehicleWebApp.Service.Contexts
             builder.Entity<VehicleMake>().HasData
             (
                 new VehicleMake { Id = new Guid ("00000000-0000-0000-0000-000000000001"), Name = "Peugeot" },
-                new VehicleMake { Id = new Guid("00000000-0000-0000-0000-000000000002"), Name = "BMW", Abbreviation = "Bembara"}
+                new VehicleMake { Id = new Guid("00000000-0000-0000-0000-000000000002"), Name = "BMW", Abbreviation = "Bembara" }
             );
         }
     }
