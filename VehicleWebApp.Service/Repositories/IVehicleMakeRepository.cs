@@ -9,5 +9,6 @@ namespace VehicleWebApp.Service.Repositories
     public interface IVehicleMakeRepository
     {
         Task<IEnumerable<VehicleMake>> ListAsync();
+        Task AddAsync(VehicleMake vehicleMake);
     }
 }

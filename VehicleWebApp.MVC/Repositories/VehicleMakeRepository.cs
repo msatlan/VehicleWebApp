@@ -19,5 +19,11 @@ namespace VehicleWebApp.MVC.Repositories
         {
             return await _context.VehicleMakes.ToListAsync();
         }
+
+        // Save vehicle make to database
+        public async Task AddAsync(VehicleMake vehicleMake)
+        {
+            await _context.VehicleMakes.AddAsync(vehicleMake);
+        }
     }
 }
