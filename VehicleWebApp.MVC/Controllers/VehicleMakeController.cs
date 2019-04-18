@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Services;
@@ -41,17 +42,8 @@ namespace VehicleWebApp.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] SaveVehicleMakeViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                var dictionary = new ModelStateDictionary();
-
-                var errorMessage = dictionary.SelectMany(m => m.Value.Errors)
-                                             .Select(m => m.ErrorMessage)
-                                             .ToList();
-
-                return BadRequest(errorMessage);
-            }
-
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetErrorMessages());
+            
             var vehicleMake = _mapper.Map<SaveVehicleMakeViewModel, VehicleMake>(viewModel);
 
             var result = await _vehicleMakeService.SaveAsync(vehicleMake);
