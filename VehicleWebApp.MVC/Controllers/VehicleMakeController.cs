@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels;
 using VehicleWebApp.Service.Models;
+using VehicleWebApp.Service.Models.APIErrors;
 using VehicleWebApp.Service.Services;
 
 namespace VehicleWebApp.MVC.Controllers
@@ -42,13 +43,13 @@ namespace VehicleWebApp.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] SaveVehicleMakeViewModel viewModel)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.GetErrorMessages());
+            if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
             
             var vehicleMake = _mapper.Map<SaveVehicleMakeViewModel, VehicleMake>(viewModel);
 
             var result = await _vehicleMakeService.SaveAsync(vehicleMake);
 
-            if (!result.Success) return BadRequest(result.Message);
+            if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
             var saveVehicleMakeViewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
 

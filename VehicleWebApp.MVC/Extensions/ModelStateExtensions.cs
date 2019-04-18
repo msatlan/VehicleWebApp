@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace VehicleWebApp.MVC.Extensions
 {
-    public static class Bla
+    public static class ModelStateExtensions
     {
         public static List<string> GetErrorMessages(this ModelStateDictionary dictionary)
         {
-            var errorMessage = dictionary.SelectMany(m => m.Value.Errors)
+            var errorMessages = dictionary.SelectMany(m => m.Value.Errors)
                                              .Select(m => m.ErrorMessage)
                                              .ToList();
 
-            return errorMessage;
+            return errorMessages;
         }
     }
 }
