@@ -57,6 +57,20 @@ namespace VehicleWebApp.MVC.Controllers
         }
         
         // Put request
-        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(Guid id, [FromBody] VehicleMakeViewModel viewModel) 
+        {
+            if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
+
+            var vehicleMakeToUpdate = _mapper.Map<VehicleMakeViewModel, VehicleMake>(viewModel);
+
+            var result = await _vehicleMakeService.UpdateAsync(id, vehicleMakeToUpdate);
+
+            if (!result.Success) return BadRequest(new BadRequestError(result.Message));
+
+            var updatedVehicleMakeViewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
+
+            return Ok(updatedVehicleMakeViewModel);
+        }
     }
 }

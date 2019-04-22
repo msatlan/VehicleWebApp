@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.Service.Communication;
@@ -43,7 +44,44 @@ namespace VehicleWebApp.MVC.Services
 
         public async Task<SaveVehicleMakeResponse> UpdateAsync(Guid id, VehicleMake vehicleMake)
         {
-            throw new NotImplementedException();
+            var existingVehicleMake = await _vehicleMakeRepository.FindByIdAsync(id);
+
+            if (existingVehicleMake == null) return new SaveVehicleMakeResponse("Non-existing vehicle make");
+
+            // Update properties
+            // name
+            if (!string.IsNullOrEmpty(vehicleMake.Name))
+            {
+                existingVehicleMake.Name = vehicleMake.Name;
+            }
+            else
+            {
+                existingVehicleMake.Name = existingVehicleMake.Name;
+            }
+            
+            // abbreviation
+            if (!string.IsNullOrEmpty(vehicleMake.Abbreviation))
+            {
+                existingVehicleMake.Abbreviation = vehicleMake.Abbreviation;
+            }
+            else
+            {
+                existingVehicleMake.Abbreviation = existingVehicleMake.Abbreviation;
+            }
+
+            try
+            {
+                _vehicleMakeRepository.Update(existingVehicleMake);
+                await _unitOfWork.CompleteAsync();
+
+                return new SaveVehicleMakeResponse(existingVehicleMake);
+            }
+            catch (Exception exception)
+            {
+                //if (exception.InnerException != null) return new SaveVehicleMakeResponse(exception.InnerException.ToString());
+
+                return new SaveVehicleMakeResponse(exception.Message);
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace VehicleWebApp.MVC.Repositories
             return await _context.VehicleMakes.FindAsync(id);
         }
 
-        // update vehicle make
+        // Update vehicle make
         public void Update(VehicleMake vehicleMake)
         {
             _context.Update(vehicleMake);
