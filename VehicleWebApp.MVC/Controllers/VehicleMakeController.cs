@@ -30,13 +30,13 @@ namespace VehicleWebApp.MVC.Controllers
 
         // Handling get request - all vehicle makes
         [HttpGet]
-        public async Task<IEnumerable<VehicleMakeViewModel>> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync()
         {
             var vehicleMakes = await _vehicleMakeService.ListAsync();
 
             var viewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
 
-            return viewModel;
+            return Ok(viewModel);
         }
 
         // Post request
@@ -54,6 +54,9 @@ namespace VehicleWebApp.MVC.Controllers
             var saveVehicleMakeViewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
 
             return Ok(saveVehicleMakeViewModel);
-        } 
+        }
+        
+        // Put request
+        
     }
 }

@@ -40,5 +40,10 @@ namespace VehicleWebApp.MVC.Services
 
             }
         }
+
+        public async Task<SaveVehicleMakeResponse> UpdateAsync(Guid id, VehicleMake vehicleMake)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace VehicleWebApp.Service.Repositories
     {
         Task<IEnumerable<VehicleMake>> ListAsync();
         Task AddAsync(VehicleMake vehicleMake);
+        Task<VehicleMake> FindByIdAsync(Guid id);
+        void Update(VehicleMake vehicleMake);
     }
 }

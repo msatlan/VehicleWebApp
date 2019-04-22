@@ -11,5 +11,6 @@ namespace VehicleWebApp.Service.Services
     {
         Task<IEnumerable<VehicleMake>> ListAsync();
         Task<SaveVehicleMakeResponse> SaveAsync(VehicleMake vehicleMake);
+        Task<SaveVehicleMakeResponse> UpdateAsync(Guid id, VehicleMake vehicleMake);
     }
 }
