@@ -12,5 +12,6 @@ namespace VehicleWebApp.Service.Repositories
         Task AddAsync(VehicleMake vehicleMake);
         Task<VehicleMake> FindByIdAsync(Guid id);
         void Update(VehicleMake vehicleMake);
+        void Remove(VehicleMake vehicleMake);
     }
 }

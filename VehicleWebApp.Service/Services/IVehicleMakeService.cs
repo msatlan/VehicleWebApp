@@ -10,7 +10,8 @@ namespace VehicleWebApp.Service.Services
     public interface IVehicleMakeService
     {
         Task<IEnumerable<VehicleMake>> ListAsync();
-        Task<SaveVehicleMakeResponse> SaveAsync(VehicleMake vehicleMake);
-        Task<SaveVehicleMakeResponse> UpdateAsync(Guid id, VehicleMake vehicleMake);
+        Task<VehicleMakeResponse> SaveAsync(VehicleMake vehicleMake);
+        Task<VehicleMakeResponse> UpdateAsync(Guid id, VehicleMake vehicleMake);
+        Task<VehicleMakeResponse> DeleteAsync(Guid id);
     }
 }

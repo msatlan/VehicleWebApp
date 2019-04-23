@@ -35,9 +35,12 @@ namespace VehicleWebApp.MVC.Repositories
         // Update vehicle make
         public void Update(VehicleMake vehicleMake)
         {
-            _context.Update(vehicleMake);
+            _context.VehicleMakes.Update(vehicleMake);
         }
 
-
+        public void Remove(VehicleMake vehicleMake)
+        {
+            _context.VehicleMakes.Remove(vehicleMake);
+        }
     }
 }

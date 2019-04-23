@@ -5,7 +5,7 @@ using VehicleWebApp.Service.Models;
 
 namespace VehicleWebApp.Service.Communication
 {
-    public class SaveVehicleMakeResponse
+    public class VehicleMakeResponse
     {
         // Properties
         public bool Success { get; set; }
@@ -15,7 +15,7 @@ namespace VehicleWebApp.Service.Communication
         public VehicleMake VehicleMake { get; set; }
         
         // Private constructor - called by other constructors
-        private SaveVehicleMakeResponse(bool success, string message, VehicleMake vehicleMake)
+        private VehicleMakeResponse(bool success, string message, VehicleMake vehicleMake)
         {
             Success = success;
             Message = message;
@@ -23,9 +23,9 @@ namespace VehicleWebApp.Service.Communication
         }
 
         // Constructor for case when request fails - get an error message
-        public SaveVehicleMakeResponse(string message) : this(false, message, null) { }
+        public VehicleMakeResponse(string message) : this(false, message, null) { }
 
         // Constructor for case when save is successful
-        public SaveVehicleMakeResponse(VehicleMake vehicleMake) : this(true, string.Empty, vehicleMake) { }
+        public VehicleMakeResponse(VehicleMake vehicleMake) : this(true, string.Empty, vehicleMake) { }
     }
 }
