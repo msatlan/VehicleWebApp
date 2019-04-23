@@ -37,11 +37,13 @@ namespace VehicleWebApp.MVC
             // Register db context with dependency injection
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext"), b => b.MigrationsAssembly("VehicleWebApp.MVC")));
 
-            // Bind IVehicleMakeService to VehicleMakeService
+            // Bind service interfaces
             services.AddScoped<IVehicleMakeService, VehicleMakeService>();
+            services.AddScoped<IVehicleModelService, VehicleModelService>();
 
-            // Bind IVehicleMakeRepository to VehicleMakeRepository
+            // Bind repository interfaces
             services.AddScoped<IVehicleMakeRepository, VehicleMakeRepository>();
+            services.AddScoped<IVehicleModelRepository, VehicleModelRepository>();
 
             services.AddAutoMapper();
 

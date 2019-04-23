@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.Service.Models;
 
-namespace VehicleWebApp.MVC.ViewModels
+namespace VehicleWebApp.MVC.ViewModels.Make
 {
     public class VehicleMakeViewModel
     {

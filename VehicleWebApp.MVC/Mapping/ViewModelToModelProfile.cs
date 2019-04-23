@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VehicleWebApp.MVC.ViewModels;
+using VehicleWebApp.MVC.ViewModels.Make;
 using VehicleWebApp.Service.Models;
 
 namespace VehicleWebApp.MVC.Mapping

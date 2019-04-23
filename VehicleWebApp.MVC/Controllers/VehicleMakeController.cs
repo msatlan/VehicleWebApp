@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
-using VehicleWebApp.MVC.ViewModels;
+using VehicleWebApp.MVC.ViewModels.Make;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.APIErrors;
 using VehicleWebApp.Service.Services;
