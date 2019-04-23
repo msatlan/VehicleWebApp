@@ -91,7 +91,21 @@ namespace VehicleWebApp.MVC.Services
         // Delete
         public async Task<VehicleMakeResponse> DeleteAsync(Guid id)
         {
-            var 
+            var vehicleMakeToDelete = await _vehicleMakeRepository.FindByIdAsync(id);
+
+            if (vehicleMakeToDelete == null) return new VehicleMakeResponse("Non-existing vehicle make");
+
+            try
+            {
+                _vehicleMakeRepository.Remove(vehicleMakeToDelete);
+                await _unitOfWork.CompleteAsync();
+
+                return new VehicleMakeResponse(vehicleMakeToDelete);
+            }
+            catch (Exception exception)
+            {
+                return new VehicleMakeResponse(exception.Message);
+            }
         }
     }
 }

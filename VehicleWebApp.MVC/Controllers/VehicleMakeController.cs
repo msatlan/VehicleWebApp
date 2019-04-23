@@ -72,5 +72,18 @@ namespace VehicleWebApp.MVC.Controllers
 
             return Ok(updatedVehicleMakeViewModel);
         }
+
+        // Delete request
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            var result = await _vehicleMakeService.DeleteAsync(id);
+
+            if (!result.Success) return BadRequest(new BadRequestError(result.Message));
+
+            var viewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
+
+            return Ok(viewModel);
+        }
     }
 }
