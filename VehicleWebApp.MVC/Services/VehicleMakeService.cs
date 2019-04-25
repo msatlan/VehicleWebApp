@@ -50,7 +50,7 @@ namespace VehicleWebApp.MVC.Services
         {
             var vehicleMakeToUpdate = await _vehicleMakeRepository.FindByIdAsync(id);
 
-            if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle make");
+            if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle make, please check the Id");
 
             // Update properties
             // name

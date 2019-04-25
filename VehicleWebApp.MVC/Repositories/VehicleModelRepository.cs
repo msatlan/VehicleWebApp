@@ -24,5 +24,16 @@ namespace VehicleWebApp.MVC.Repositories
         {
             await _context.VehicleModels.AddAsync(vehicleModel);
         }
+
+        // Find by Id 
+        public async Task<VehicleModel> FindById(Guid Id)
+        {
+            return await _context.VehicleModels.FindAsync(Id);
+        }
+
+        public void Update(VehicleModel vehicleModel)
+        {
+            _context.VehicleModels.Update(vehicleModel);
+        }
     }
 }

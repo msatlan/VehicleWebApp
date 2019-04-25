@@ -68,9 +68,9 @@ namespace VehicleWebApp.MVC.Controllers
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
-            var updatedVehicleMakeViewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
+            var vehicleMakeViewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
 
-            return Ok(updatedVehicleMakeViewModel);
+            return Ok(vehicleMakeViewModel);
         }
 
         // Delete request

@@ -51,5 +51,45 @@ namespace VehicleWebApp.MVC.Services
                 return new VehicleModelResponse(exception.Message);   
             }
         }
+
+        public async Task<VehicleModelResponse> UpdateAsync(Guid id, VehicleModel vehicleModel)
+        {
+            var vehicleModelToUpdate = await _vehicleModelRepository.FindById(id);
+
+            if (vehicleModelToUpdate == null) return new VehicleModelResponse("Non-existing vehicle model, please check the Id");
+
+
+            if (string.IsNullOrEmpty(vehicleModel.Name))
+            {
+                vehicleModelToUpdate.Name = vehicleModelToUpdate.Name;
+            }
+            else
+            {
+                vehicleModelToUpdate.Name = vehicleModel.Name;
+            }
+
+
+            if (string.IsNullOrEmpty(vehicleModel.Abbreviation))
+            {
+                vehicleModelToUpdate.Abbreviation = vehicleModelToUpdate.Abbreviation;
+            }
+            else
+            {
+                vehicleModelToUpdate.Abbreviation = vehicleModel.Abbreviation;
+            }
+
+            try
+            {
+                _vehicleModelRepository.Update(vehicleModelToUpdate);
+
+                await _unitOfWork.CompleteAsync();
+
+                return new VehicleModelResponse(vehicleModelToUpdate);
+            }
+            catch (Exception exception)
+            {
+                return new VehicleModelResponse(exception.Message);
+            }
+        }
     }
 }
