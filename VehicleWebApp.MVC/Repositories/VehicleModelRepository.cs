@@ -11,12 +11,18 @@ namespace VehicleWebApp.MVC.Repositories
 {
     public class VehicleModelRepository : BaseRepository, IVehicleModelRepository
     {
-        public VehicleModelRepository(AppDbContext context) : base(context) { }
+        public VehicleModelRepository(AppDbContext context) : base(context) { } 
 
         // Get all vehicle models
         public async Task<IEnumerable<VehicleModel>> ListAsync()
         {
            return await _context.VehicleModels.Include(model => model.Make).ToListAsync();
+        }
+
+        // Add new vehicle model
+        public async Task AddAsync(VehicleModel vehicleModel)
+        {
+            await _context.VehicleModels.AddAsync(vehicleModel);
         }
     }
 }

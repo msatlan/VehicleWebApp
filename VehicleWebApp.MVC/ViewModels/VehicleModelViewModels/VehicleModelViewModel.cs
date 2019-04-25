@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleWebApp.MVC.ViewModels.VehicleMakeViewmodels;
 using VehicleWebApp.Service.Models;
 
-namespace VehicleWebApp.MVC.ViewModels.Make
+namespace VehicleWebApp.MVC.ViewModels.VehicleModelViewModels
 {
-    public class VehicleMakeViewModel
+    public class VehicleModelViewModel
     {
         public Guid Id { get; set; }
 
@@ -14,6 +15,6 @@ namespace VehicleWebApp.MVC.ViewModels.Make
 
         public string Abbreviation { get; set; }
 
-        public List<string> Models { get; set; }
+        public BasicVehicleMakeViewModel Make { get; set; }
     }
 }

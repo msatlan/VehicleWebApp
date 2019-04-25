@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VehicleWebApp.MVC.ViewModels.Model;
+using VehicleWebApp.MVC.Extensions;
+using VehicleWebApp.MVC.ViewModels.VehicleModelViewModels;
 using VehicleWebApp.Service.Models;
+using VehicleWebApp.Service.Models.APIErrors;
 using VehicleWebApp.Service.Services;
 
 namespace VehicleWebApp.MVC.Controllers
@@ -30,6 +32,22 @@ namespace VehicleWebApp.MVC.Controllers
             var viewModel = _mapper.Map<IEnumerable<VehicleModel>, IEnumerable<VehicleModelViewModel>>(vehicleModels);
 
             return Ok(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody] SaveVehicleModelViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
+
+            var vehicleModelToSave = _mapper.Map<SaveVehicleModelViewModel, VehicleModel>(viewModel);
+
+            var result = await _vehicleModelService.SaveAsync(vehicleModelToSave);
+
+            if (!result.Success) return BadRequest(new BadRequestError(result.Message));
+
+            var viewModelToReturn = _mapper.Map<VehicleModel, VehicleModelViewModel>(result.VehicleModel);
+
+            return Ok(viewModelToReturn);
         }
     }
 }
