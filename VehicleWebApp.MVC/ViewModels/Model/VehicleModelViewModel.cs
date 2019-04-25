@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleWebApp.MVC.ViewModels.Make;
 using VehicleWebApp.Service.Models;
 
 namespace VehicleWebApp.MVC.ViewModels.Model
@@ -14,6 +15,6 @@ namespace VehicleWebApp.MVC.ViewModels.Model
 
         public string Abbreviation { get; set; }
 
-        public VehicleMake Make { get; set; }
+        public BasicVehicleMakeViewModel Make { get; set; }
     }
 }
