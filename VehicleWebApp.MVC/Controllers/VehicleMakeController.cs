@@ -41,36 +41,36 @@ namespace VehicleWebApp.MVC.Controllers
 
         // Post request
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] SaveVehicleMakeViewModel viewModel)
+        public async Task<IActionResult> PostAsync([FromBody] SaveVehicleMakeViewModel saveVehicleMakeViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
             
-            var vehicleMake = _mapper.Map<SaveVehicleMakeViewModel, VehicleMake>(viewModel);
+            var vehicleMake = _mapper.Map<SaveVehicleMakeViewModel, VehicleMake>(saveVehicleMakeViewModel);
 
             var result = await _vehicleMakeService.SaveAsync(vehicleMake);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
-            var saveVehicleMakeViewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
+            var viewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
 
-            return Ok(saveVehicleMakeViewModel);
+            return Ok(viewModel);
         }
         
         // Put request
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, [FromBody] VehicleMakeViewModel viewModel) 
+        public async Task<IActionResult> PutAsync(Guid id, [FromBody] VehicleMakeViewModel vehicleMakeViewModel) 
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
 
-            var vehicleMakeToUpdate = _mapper.Map<VehicleMakeViewModel, VehicleMake>(viewModel);
+            var vehicleMakeToUpdate = _mapper.Map<VehicleMakeViewModel, VehicleMake>(vehicleMakeViewModel);
 
             var result = await _vehicleMakeService.UpdateAsync(id, vehicleMakeToUpdate);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
-            var vehicleMakeViewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
+            var viewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
 
-            return Ok(vehicleMakeViewModel);
+            return Ok(viewModel);
         }
 
         // Delete request

@@ -31,9 +31,16 @@ namespace VehicleWebApp.MVC.Repositories
             return await _context.VehicleModels.FindAsync(Id);
         }
 
+        // Update
         public void Update(VehicleModel vehicleModel)
         {
             _context.VehicleModels.Update(vehicleModel);
+        }
+
+        // Delete
+        public void Remove(VehicleModel vehicleModel)
+        {
+            _context.VehicleModels.Remove(vehicleModel);
         }
     }
 }

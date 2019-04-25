@@ -35,35 +35,47 @@ namespace VehicleWebApp.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] SaveVehicleModelViewModel viewModel)
+        public async Task<IActionResult> PostAsync([FromBody] SaveVehicleModelViewModel saveVehicleModelViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
 
-            var vehicleModelToSave = _mapper.Map<SaveVehicleModelViewModel, VehicleModel>(viewModel);
+            var vehicleModelToSave = _mapper.Map<SaveVehicleModelViewModel, VehicleModel>(saveVehicleModelViewModel);
 
             var result = await _vehicleModelService.SaveAsync(vehicleModelToSave);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
-            var viewModelToReturn = _mapper.Map<VehicleModel, VehicleModelViewModel>(result.VehicleModel);
+            var viewModel = _mapper.Map<VehicleModel, VehicleModelViewModel>(result.VehicleModel);
 
-            return Ok(viewModelToReturn);
+            return Ok(viewModel);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, [FromBody] VehicleModelViewModel viewModel)
+        public async Task<IActionResult> PutAsync(Guid id, [FromBody] VehicleModelViewModel vehicleModelViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
 
-            var vehicleModelToUpdate = _mapper.Map<VehicleModelViewModel, VehicleModel>(viewModel);
+            var vehicleModelToUpdate = _mapper.Map<VehicleModelViewModel, VehicleModel>(vehicleModelViewModel);
 
             var result = await _vehicleModelService.UpdateAsync(id, vehicleModelToUpdate);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
-            var vehicleModelViewModel = _mapper.Map<VehicleModel, VehicleModelViewModel>(result.VehicleModel);
+            var viewModel = _mapper.Map<VehicleModel, VehicleModelViewModel>(result.VehicleModel);
 
-            return Ok(vehicleModelViewModel);
+            return Ok(viewModel);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            var result = await _vehicleModelService.DeleteAsync(id);
+
+            if (!result.Success) return BadRequest(new BadRequestError(result.Message));
+
+            var viewModel = _mapper.Map<VehicleModel, VehicleModelViewModel>(result.VehicleModel);
+
+            return Ok(viewModel);
         }
     }
 }

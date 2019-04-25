@@ -91,5 +91,27 @@ namespace VehicleWebApp.MVC.Services
                 return new VehicleModelResponse(exception.Message);
             }
         }
+
+        public async Task<VehicleModelResponse> DeleteAsync(Guid id)
+        {
+            var vehicleModelToDelete = await _vehicleModelRepository.FindById(id);
+
+            if (vehicleModelToDelete == null) return new VehicleModelResponse("Non - existing vehicle model, please check the Id");
+
+            try
+            {
+                _vehicleModelRepository.Remove(vehicleModelToDelete);
+
+                await _unitOfWork.CompleteAsync();
+
+                return new VehicleModelResponse(vehicleModelToDelete);
+
+            }
+            catch (Exception exception)
+            {
+                return new VehicleModelResponse(exception.Message);
+            }
+        }
+
     }
 }

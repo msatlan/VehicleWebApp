@@ -93,7 +93,7 @@ namespace VehicleWebApp.MVC.Services
         {
             var vehicleMakeToDelete = await _vehicleMakeRepository.FindByIdAsync(id);
 
-            if (vehicleMakeToDelete == null) return new VehicleMakeResponse("Non-existing vehicle make");
+            if (vehicleMakeToDelete == null) return new VehicleMakeResponse("Non-existing vehicle make, please check the Id");
 
             try
             {
