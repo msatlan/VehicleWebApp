@@ -28,6 +28,12 @@ namespace VehicleWebApp.MVC.Services
             return await _vehicleMakeRepository.ListAsync();
         }
 
+        // Get paginated list
+        public async Task<IEnumerable<VehicleMake>> PaginatedListAsync(PaginationModel paginationModel)
+        {
+            return await _vehicleMakeRepository.PaginatedListAsync(paginationModel);
+        }
+
         // Save 
         public async Task<VehicleMakeResponse> SaveAsync(VehicleMake vehicleMake)
         {

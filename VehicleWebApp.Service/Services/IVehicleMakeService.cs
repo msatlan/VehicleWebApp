@@ -10,6 +10,7 @@ namespace VehicleWebApp.Service.Services
     public interface IVehicleMakeService
     {
         Task<IEnumerable<VehicleMake>> ListAsync();
+        Task<IEnumerable<VehicleMake>> PaginatedListAsync(PaginationModel paginationModel);
         Task<VehicleMakeResponse> SaveAsync(VehicleMake vehicleMake);
         Task<VehicleMakeResponse> UpdateAsync(Guid id, VehicleMake vehicleMake);
         Task<VehicleMakeResponse> DeleteAsync(Guid id);

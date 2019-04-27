@@ -20,6 +20,15 @@ namespace VehicleWebApp.MVC.Repositories
             return await _context.VehicleMakes.ToListAsync();
         }
 
+        // Get paginated list
+        public async Task<IEnumerable<VehicleMake>> PaginatedListAsync(PaginationModel paginationModel)
+        {
+            return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Id)
+                                              .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
+                                              .Take(paginationModel.ObjectsPerPage)
+                                              .ToListAsync();
+        }
+
         // Save vehicle make to database
         public async Task AddAsync(VehicleMake vehicleMake)
         {
@@ -42,5 +51,7 @@ namespace VehicleWebApp.MVC.Repositories
         {
             _context.VehicleMakes.Remove(vehicleMake);
         }
+
+        
     }
 }

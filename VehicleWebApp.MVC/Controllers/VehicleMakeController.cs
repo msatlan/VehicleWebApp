@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels.VehicleMakeViewmodels;
+using VehicleWebApp.MVC.ViewModels.VehicleMakeViewModels;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.APIErrors;
 using VehicleWebApp.Service.Services;
@@ -28,7 +29,7 @@ namespace VehicleWebApp.MVC.Controllers
             _mapper = mapper;
         }
 
-        // Handling get request - all vehicle makes
+        // Get request - all vehicle makes
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -36,6 +37,21 @@ namespace VehicleWebApp.MVC.Controllers
 
             var viewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
 
+            return Ok(viewModel);
+        }
+
+        // Get request - paged result
+        [HttpGet("/api/vehicleMakes/paged/pageNo={currentPage}&pageSize={objectsPerPage}")]
+        public async Task<IActionResult> GetPaginatedListAsync(int currentPage, int objectsPerPage)
+        {
+            var paginationViewModel = new VehicleMakePaginationViewModel { CurrentPage = currentPage, ObjectsPerPage = objectsPerPage };
+
+            var paginationModel = _mapper.Map<VehicleMakePaginationViewModel, PaginationModel>(paginationViewModel);
+
+            var vehicleMakes = await _vehicleMakeService.PaginatedListAsync(paginationModel);
+
+            var viewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+            
             return Ok(viewModel);
         }
 
