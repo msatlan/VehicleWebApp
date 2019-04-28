@@ -23,10 +23,33 @@ namespace VehicleWebApp.MVC.Repositories
         // Get paginated list
         public async Task<IEnumerable<VehicleMake>> PaginatedListAsync(PaginationModel paginationModel)
         {
-            return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Id)
+            var orderedVehicleMakes = _context.VehicleMakes;
+
+            switch (paginationModel.SortOrder)
+            {
+                case "Name":
+                    return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Name)
                                               .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
                                               .Take(paginationModel.ObjectsPerPage)
                                               .ToListAsync();
+
+                case "Id":
+                    return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Id)
+                                              .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
+                                              .Take(paginationModel.ObjectsPerPage)
+                                              .ToListAsync();
+
+                case "Abrv":
+                    return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Abbreviation)
+                                              .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
+                                              .Take(paginationModel.ObjectsPerPage)
+                                              .ToListAsync();
+                default:
+                    return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Id)
+                                              .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
+                                              .Take(paginationModel.ObjectsPerPage)
+                                              .ToListAsync();
+            }
         }
 
         // Save vehicle make to database

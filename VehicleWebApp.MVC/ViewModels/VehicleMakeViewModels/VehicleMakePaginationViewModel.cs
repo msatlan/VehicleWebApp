@@ -10,5 +10,7 @@ namespace VehicleWebApp.MVC.ViewModels.VehicleMakeViewModels
         public int CurrentPage { get; set; }
 
         public int ObjectsPerPage { get; set; }
+
+        public string SortOrder { get; set; }
     }
 }

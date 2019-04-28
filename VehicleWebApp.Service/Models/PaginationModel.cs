@@ -10,6 +10,6 @@ namespace VehicleWebApp.Service.Models
 
         public int ObjectsPerPage { get; set; }
 
-        
+        public string SortOrder { get; set; }
     }
 }

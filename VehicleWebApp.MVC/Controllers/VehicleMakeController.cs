@@ -41,10 +41,10 @@ namespace VehicleWebApp.MVC.Controllers
         }
 
         // Get request - paged result
-        [HttpGet("/api/vehicleMakes/paged/pageNo={currentPage}&pageSize={objectsPerPage}")]
-        public async Task<IActionResult> GetPaginatedListAsync(int currentPage, int objectsPerPage)
+        [HttpGet("/api/vehicleMakes/paged/pageNo={currentPage}&pageSize={objectsPerPage}&sortBy={sortOrder}")]
+        public async Task<IActionResult> GetPaginatedListAsync(int currentPage, int objectsPerPage, string sortOrder)
         {
-            var paginationViewModel = new VehicleMakePaginationViewModel { CurrentPage = currentPage, ObjectsPerPage = objectsPerPage };
+            var paginationViewModel = new VehicleMakePaginationViewModel { CurrentPage = currentPage, ObjectsPerPage = objectsPerPage, SortOrder = sortOrder };
 
             var paginationModel = _mapper.Map<VehicleMakePaginationViewModel, PaginationModel>(paginationViewModel);
 
