@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.Service.Contexts;
@@ -20,36 +21,58 @@ namespace VehicleWebApp.MVC.Repositories
             return await _context.VehicleMakes.ToListAsync();
         }
 
-        // Get paginated list
-        public async Task<IEnumerable<VehicleMake>> PaginatedListAsync(PaginationModel paginationModel)
+        // Get query results list
+        public async Task<IEnumerable<VehicleMake>> QueriedListAsync(VehicleQueryModel queryModel)
         {
-            var orderedVehicleMakes = _context.VehicleMakes;
+            var vehicleMakes = from makes in _context.VehicleMakes select makes;
 
-            switch (paginationModel.SortOrder)
+            Debug.WriteLine(queryModel.SearchString);
+
+            if (!string.IsNullOrEmpty(queryModel.SearchString) || queryModel.SearchString != """")
             {
-                case "Name":
-                    return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Name)
-                                              .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
-                                              .Take(paginationModel.ObjectsPerPage)
-                                              .ToListAsync();
+                vehicleMakes = vehicleMakes.Where(vehicleMake => vehicleMake.Name.Contains(queryModel.SearchString)
+                                                 || vehicleMake.Abbreviation.Contains(queryModel.SearchString));
+            }
 
-                case "Id":
-                    return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Id)
-                                              .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
-                                              .Take(paginationModel.ObjectsPerPage)
-                                              .ToListAsync();
+            if (string.IsNullOrEmpty(queryModel.SortOrder)) vehicleMakes = vehicleMakes.OrderBy(vehicleMake => vehicleMake.Name);
+
+            switch (queryModel.SortOrder)
+            {
+                case "NameDesc":
+                    vehicleMakes = vehicleMakes.OrderByDescending(vehicleMake => vehicleMake.Name);
+                    break;
 
                 case "Abrv":
-                    return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Abbreviation)
-                                              .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
-                                              .Take(paginationModel.ObjectsPerPage)
-                                              .ToListAsync();
+                    vehicleMakes = vehicleMakes.OrderBy(vehicleMake => vehicleMake.Abbreviation);
+                    break;
+
+                case "AbrvDesc":
+                    vehicleMakes = vehicleMakes.OrderByDescending(vehicleMake => vehicleMake.Abbreviation);
+                    break;
+
                 default:
-                    return await _context.VehicleMakes.OrderBy(vehicleMake => vehicleMake.Id)
-                                              .Skip((paginationModel.CurrentPage - 1) * paginationModel.ObjectsPerPage)
-                                              .Take(paginationModel.ObjectsPerPage)
-                                              .ToListAsync();
+                    vehicleMakes = vehicleMakes.OrderBy(vehicleMake => vehicleMake.Name);
+                    break;
             }
+            
+            int page;
+            int objectsPerPage;
+
+            if (queryModel.CurrentPage.HasValue && queryModel.ObjectsPerPage.HasValue)
+            {
+                page = queryModel.CurrentPage.Value;
+                objectsPerPage = queryModel.ObjectsPerPage.Value;
+            }
+            else
+            {
+                page = 1;
+                objectsPerPage = vehicleMakes.Count();
+            };
+            
+            return await vehicleMakes.Skip((page - 1) * objectsPerPage)
+                                     .Take(objectsPerPage)
+                                     .ToListAsync();
+
         }
 
         // Save vehicle make to database

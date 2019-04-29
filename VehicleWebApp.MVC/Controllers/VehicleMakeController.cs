@@ -7,8 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
+using VehicleWebApp.MVC.ViewModels;
 using VehicleWebApp.MVC.ViewModels.VehicleMakeViewmodels;
-using VehicleWebApp.MVC.ViewModels.VehicleMakeViewModels;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.APIErrors;
 using VehicleWebApp.Service.Services;
@@ -39,16 +39,14 @@ namespace VehicleWebApp.MVC.Controllers
 
             return Ok(viewModel);
         }
-
-        // Get request - paged result
-        [HttpGet("/api/vehicleMakes/paged/pageNo={currentPage}&pageSize={objectsPerPage}&sortBy={sortOrder}")]
-        public async Task<IActionResult> GetPaginatedListAsync(int currentPage, int objectsPerPage, string sortOrder)
+        
+        // Get request - vehicle make query
+        [HttpGet("query&search={searchString}&sort={sortOrder}&pageNo={currentPage}&pageSize={objectsPerPage}")]
+        public async Task<IActionResult> GetPaginatedListAsync([FromRoute] VehicleQueryViewModel queryViewModel)
         {
-            var paginationViewModel = new VehicleMakePaginationViewModel { CurrentPage = currentPage, ObjectsPerPage = objectsPerPage, SortOrder = sortOrder };
+            var queryModel = _mapper.Map<VehicleQueryViewModel, VehicleQueryModel>(queryViewModel);
 
-            var paginationModel = _mapper.Map<VehicleMakePaginationViewModel, PaginationModel>(paginationViewModel);
-
-            var vehicleMakes = await _vehicleMakeService.PaginatedListAsync(paginationModel);
+            var vehicleMakes = await _vehicleMakeService.QueriedListAsync(queryModel);
 
             var viewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
             

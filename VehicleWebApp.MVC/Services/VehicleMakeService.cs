@@ -29,9 +29,9 @@ namespace VehicleWebApp.MVC.Services
         }
 
         // Get paginated list
-        public async Task<IEnumerable<VehicleMake>> PaginatedListAsync(PaginationModel paginationModel)
+        public async Task<IEnumerable<VehicleMake>> QueriedListAsync(VehicleQueryModel queryModel)
         {
-            return await _vehicleMakeRepository.PaginatedListAsync(paginationModel);
+            return await _vehicleMakeRepository.QueriedListAsync(queryModel);
         }
 
         // Save 

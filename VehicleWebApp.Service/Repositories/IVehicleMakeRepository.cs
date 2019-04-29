@@ -9,7 +9,7 @@ namespace VehicleWebApp.Service.Repositories
     public interface IVehicleMakeRepository
     {
         Task<IEnumerable<VehicleMake>> ListAsync();
-        Task<IEnumerable<VehicleMake>> PaginatedListAsync(PaginationModel paginationModel);
+        Task<IEnumerable<VehicleMake>> QueriedListAsync(VehicleQueryModel queryModel);
         Task AddAsync(VehicleMake vehicleMake);
         Task<VehicleMake> FindByIdAsync(Guid id);
         void Update(VehicleMake vehicleMake);
