@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VehicleWebApp.Service.Models.APIErrors
+namespace VehicleWebApp.Service.Models.Common.APIErrors
 {
     public class APIError
     {

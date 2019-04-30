@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels.VehicleModelViewModels;
 using VehicleWebApp.Service.Models;
-using VehicleWebApp.Service.Models.APIErrors;
+using VehicleWebApp.Service.Models.Common.APIErrors;
 using VehicleWebApp.Service.Services;
 
 namespace VehicleWebApp.MVC.Controllers

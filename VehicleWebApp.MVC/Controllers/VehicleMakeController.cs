@@ -7,10 +7,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
-using VehicleWebApp.MVC.ViewModels;
+using VehicleWebApp.MVC.ViewModels.Common;
 using VehicleWebApp.MVC.ViewModels.VehicleMakeViewmodels;
+using VehicleWebApp.Service.Common;
 using VehicleWebApp.Service.Models;
-using VehicleWebApp.Service.Models.APIErrors;
+using VehicleWebApp.Service.Models.Common;
+using VehicleWebApp.Service.Models.Common.APIErrors;
 using VehicleWebApp.Service.Services;
 
 namespace VehicleWebApp.MVC.Controllers
@@ -29,30 +31,63 @@ namespace VehicleWebApp.MVC.Controllers
             _mapper = mapper;
         }
 
-        // Get request - all vehicle makes
+        // Get request
+        //             * results on 1 page: https://localhost:44391/api/vehicleMakes  
+        //                 * paged results: https://localhost:44391/api/vehicleMakes?currentPage=(int)&objectsPerPage=(int)
+        //         * sorted results 1 page: https://localhost:44391/api/vehicleMakes?sortOrder=(string)
+        //          * sorted paged results: https://localhost:44391/api/vehicleMakes?sortOrder=(string)&currentPage=(int)&objectsPerPage=(int)
+        //       * filtered results 1 page: https://localhost:44391/api/vehicleMakes?searchString=(string)
+        //        * filtered paged results: https://localhost:44391/api/vehicleMakes?searchString=(string)&currentPage=(int)&objectsPerPage=(int)
+        // * filtered sorted paged results: https://localhost:44391/api/vehicleMakes?searchString=(string)&sortOrder=(string)&currentPage=(int)&objectsPerPage=(int)
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAsync([FromQuery] QueryViewModel viewModel)
         {
-            var vehicleMakes = await _vehicleMakeService.ListAsync();
+            var pagingModel = _mapper.Map<QueryViewModel, PagingModel>(viewModel);
 
-            var viewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+            if (!string.IsNullOrEmpty(viewModel.SortOrder) && !string.IsNullOrEmpty(viewModel.SearchString))
+            {
+                var filteringModel = _mapper.Map<QueryViewModel, FilteringModel>(viewModel);
 
-            return Ok(viewModel);
-        }
-        
-        // Get request - vehicle make query
-        [HttpGet("query&search={searchString}&sort={sortOrder}&pageNo={currentPage}&pageSize={objectsPerPage}")]
-        public async Task<IActionResult> GetPaginatedListAsync([FromRoute] VehicleQueryViewModel queryViewModel)
-        {
-            var queryModel = _mapper.Map<VehicleQueryViewModel, VehicleQueryModel>(queryViewModel);
+                var sortingModel = _mapper.Map<QueryViewModel, SortingModel>(viewModel);
 
-            var vehicleMakes = await _vehicleMakeService.QueriedListAsync(queryModel);
+                var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, sortingModel, filteringModel);
 
-            var viewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+                var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+
+                return Ok(vehicleMakeViewModel);
+            }
+            else if (string.IsNullOrEmpty(viewModel.SortOrder) && !string.IsNullOrEmpty(viewModel.SearchString))
+            {
+                var filteringModel = _mapper.Map<QueryViewModel, FilteringModel>(viewModel);
+
+                var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, null, filteringModel);
+
+                var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+
+                return Ok(vehicleMakeViewModel);
+            }
+            else if (!string.IsNullOrEmpty(viewModel.SortOrder) && string.IsNullOrEmpty(viewModel.SearchString))
+            {
+                var sortingModel = _mapper.Map<QueryViewModel, SortingModel>(viewModel);
+
+                var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, sortingModel, null);
+
+                var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+
+                return Ok(vehicleMakeViewModel);
+            }
+            else
+            {
+                var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, null, null);
+
+                var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+
+                return Ok(vehicleMakeViewModel);
+            } 
             
-            return Ok(viewModel);
+            
         }
-
+    
         // Post request
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] SaveVehicleMakeViewModel saveVehicleMakeViewModel)

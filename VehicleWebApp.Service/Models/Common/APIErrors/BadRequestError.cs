@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
-namespace VehicleWebApp.Service.Models.APIErrors
+namespace VehicleWebApp.Service.Models.Common.APIErrors
 {
     public class BadRequestError : APIError
     {

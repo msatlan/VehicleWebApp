@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleWebApp.Service.Common;
 using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
+using VehicleWebApp.Service.Models.Common;
 using VehicleWebApp.Service.Repositories;
 using VehicleWebApp.Service.Services;
 
@@ -23,17 +25,12 @@ namespace VehicleWebApp.MVC.Services
         }
 
         // Get all
-        public async Task<IEnumerable<VehicleMake>> ListAsync()
+        public async Task<PagedList<VehicleMake>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel)
         {
-            return await _vehicleMakeRepository.ListAsync();
+            // Throw exception when model is not null but values are off? i.e. sortingModel.SortOrder = bla, number of page or objects per page beyond index
+            return await _vehicleMakeRepository.ListAsync(pagingModel, sortingModel, filteringModel);
         }
-
-        // Get paginated list
-        public async Task<IEnumerable<VehicleMake>> QueriedListAsync(VehicleQueryModel queryModel)
-        {
-            return await _vehicleMakeRepository.QueriedListAsync(queryModel);
-        }
-
+  
         // Save 
         public async Task<VehicleMakeResponse> SaveAsync(VehicleMake vehicleMake)
         {
