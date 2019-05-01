@@ -8,7 +8,7 @@ using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels.VehicleModelViewModels;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common.APIErrors;
-using VehicleWebApp.Service.Services;
+using VehicleWebApp.Service.Services.Common;
 
 namespace VehicleWebApp.MVC.Controllers
 {

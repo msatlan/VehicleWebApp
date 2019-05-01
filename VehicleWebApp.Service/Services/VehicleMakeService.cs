@@ -7,10 +7,10 @@ using VehicleWebApp.Service.Common;
 using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
-using VehicleWebApp.Service.Repositories;
-using VehicleWebApp.Service.Services;
+using VehicleWebApp.Service.Repositories.Common;
+using VehicleWebApp.Service.Services.Common;
 
-namespace VehicleWebApp.MVC.Services
+namespace VehicleWebApp.Service.Services
 {
     public class VehicleMakeService : IVehicleMakeService
     {

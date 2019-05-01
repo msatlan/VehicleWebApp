@@ -8,9 +8,9 @@ using VehicleWebApp.Service.Common;
 using VehicleWebApp.Service.Contexts;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
-using VehicleWebApp.Service.Repositories;
+using VehicleWebApp.Service.Repositories.Common;
 
-namespace VehicleWebApp.MVC.Repositories
+namespace VehicleWebApp.Service.Repositories
 {
     public class VehicleMakeRepository : BaseRepository, IVehicleMakeRepository 
     {

@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using VehicleWebApp.MVC.Repositories;
-using VehicleWebApp.MVC.Services;
-using VehicleWebApp.Service.Contexts;
-using VehicleWebApp.Service.Repositories;
 using VehicleWebApp.Service.Services;
+using VehicleWebApp.Service.Contexts;
+using VehicleWebApp.Service.Repositories.Common;
+using VehicleWebApp.Service.Services.Common;
+using VehicleWebApp.Service.Repositories;
 
 namespace VehicleWebApp.MVC
 {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.Service.Contexts;
 using VehicleWebApp.Service.Models;
-using VehicleWebApp.Service.Repositories;
+using VehicleWebApp.Service.Repositories.Common;
 
-namespace VehicleWebApp.MVC.Repositories
+namespace VehicleWebApp.Service.Repositories
 {
     public class VehicleModelRepository : BaseRepository, IVehicleModelRepository
     {

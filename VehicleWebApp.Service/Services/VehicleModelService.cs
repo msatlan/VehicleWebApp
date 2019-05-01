@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
-using VehicleWebApp.Service.Repositories;
-using VehicleWebApp.Service.Services;
+using VehicleWebApp.Service.Repositories.Common;
+using VehicleWebApp.Service.Services.Common;
 
-namespace VehicleWebApp.MVC.Services
+namespace VehicleWebApp.Service.Services
 {
     public class VehicleModelService : IVehicleModelService
     {

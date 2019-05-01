@@ -6,7 +6,7 @@ using VehicleWebApp.Service.Common;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
 
-namespace VehicleWebApp.Service.Repositories
+namespace VehicleWebApp.Service.Repositories.Common
 {
     public interface IVehicleMakeRepository
     {

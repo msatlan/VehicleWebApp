@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VehicleWebApp.Service.Models;
 
-namespace VehicleWebApp.Service.Repositories
+namespace VehicleWebApp.Service.Repositories.Common
 {
     public interface IVehicleModelRepository
     {

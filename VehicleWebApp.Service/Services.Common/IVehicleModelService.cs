@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
 
-namespace VehicleWebApp.Service.Services
+namespace VehicleWebApp.Service.Services.Common
 {
     public interface IVehicleModelService
     {

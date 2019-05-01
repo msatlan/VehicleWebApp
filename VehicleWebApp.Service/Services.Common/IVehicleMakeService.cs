@@ -7,7 +7,7 @@ using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
 
-namespace VehicleWebApp.Service.Services
+namespace VehicleWebApp.Service.Services.Common
 {
     public interface IVehicleMakeService
     {
