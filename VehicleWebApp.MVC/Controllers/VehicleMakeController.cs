@@ -86,7 +86,7 @@ namespace VehicleWebApp.MVC.Controllers
             
             var vehicleMake = _mapper.Map<VehicleMakeViewModel, VehicleMake>(vehicleMakeViewModel);
 
-            var result = await _vehicleMakeService.SaveAsync(vehicleMake);
+            var result = await _vehicleMakeService.InsertAsync(vehicleMake);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 

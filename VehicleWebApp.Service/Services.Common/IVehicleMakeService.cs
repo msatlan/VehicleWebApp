@@ -12,7 +12,7 @@ namespace VehicleWebApp.Service.Services.Common
     public interface IVehicleMakeService
     {
         Task<PagedList<VehicleMake>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel);
-        Task<VehicleMakeResponse> SaveAsync(VehicleMake vehicleMake);
+        Task<VehicleMakeResponse> InsertAsync(VehicleMake vehicleMake);
         Task<VehicleMakeResponse> UpdateAsync(Guid id, VehicleMake vehicleMake);
         Task<VehicleMakeResponse> DeleteAsync(Guid id);
     }

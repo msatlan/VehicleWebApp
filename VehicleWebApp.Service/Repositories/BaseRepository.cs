@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using VehicleWebApp.Service.Contexts;
 
-namespace VehicleWebApp.Service.Repositories.Common
+namespace VehicleWebApp.Service.Repositories
 {
     // Repository classes will inherit this class as base class and get an instance of AppDbContext
     public abstract class BaseRepository

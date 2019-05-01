@@ -40,7 +40,7 @@ namespace VehicleWebApp.MVC.Controllers
 
             var vehicleModelToSave = _mapper.Map<VehicleModelViewModel, VehicleModel>(vehicleModelViewModel);
 
-            var result = await _vehicleModelService.SaveAsync(vehicleModelToSave);
+            var result = await _vehicleModelService.InsertAsync(vehicleModelToSave);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 

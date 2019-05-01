@@ -32,7 +32,7 @@ namespace VehicleWebApp.Service.Services
         }
   
         // Save 
-        public async Task<VehicleMakeResponse> SaveAsync(VehicleMake vehicleMake)
+        public async Task<VehicleMakeResponse> InsertAsync(VehicleMake vehicleMake)
         {
             try
             {

@@ -29,7 +29,7 @@ namespace VehicleWebApp.Service.Services
             return await _vehicleModelRepository.ListAsync();
         }
 
-        public async Task<VehicleModelResponse> SaveAsync(VehicleModel vehicleModel)
+        public async Task<VehicleModelResponse> InsertAsync(VehicleModel vehicleModel)
         {
             try
             {
