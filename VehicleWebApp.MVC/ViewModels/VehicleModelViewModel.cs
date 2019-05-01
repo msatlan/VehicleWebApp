@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace VehicleWebApp.MVC.ViewModels.VehicleModelViewModels
+namespace VehicleWebApp.MVC.ViewModels
 {
-    public class SaveVehicleModelViewModel
+    public class VehicleModelViewModel
     {
+        public Guid Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
@@ -15,5 +14,7 @@ namespace VehicleWebApp.MVC.ViewModels.VehicleModelViewModels
 
         [Required]
         public Guid MakeId { get; set; }
+
+        public string Make { get; set; }
     }
 }

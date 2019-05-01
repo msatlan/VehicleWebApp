@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using VehicleWebApp.MVC.ViewModels.VehicleMakeViewmodels;
-using VehicleWebApp.MVC.ViewModels.VehicleModelViewModels;
+using VehicleWebApp.MVC.ViewModels;
 using VehicleWebApp.Service.Models;
 
 namespace VehicleWebApp.MVC.Mapping
@@ -17,7 +13,8 @@ namespace VehicleWebApp.MVC.Mapping
                 .ForMember(dest => dest.Models, opts => opts.MapFrom(src => src.Models.Select(model => model.Name)
                 .ToList()));
 
-            CreateMap<VehicleModel, VehicleModelViewModel>();
+            CreateMap<VehicleModel, VehicleModelViewModel>()
+                .ForMember(dest => dest.Make, opts => opts.MapFrom(src => src.Make.Name));
         }
     }
 }

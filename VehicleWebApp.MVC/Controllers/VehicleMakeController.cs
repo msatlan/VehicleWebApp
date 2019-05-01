@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
-using VehicleWebApp.MVC.ViewModels.Common;
-using VehicleWebApp.MVC.ViewModels.VehicleMakeViewmodels;
-using VehicleWebApp.Service.Common;
+using VehicleWebApp.MVC.ViewModels;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
 using VehicleWebApp.Service.Models.Common.APIErrors;
@@ -84,11 +80,11 @@ namespace VehicleWebApp.MVC.Controllers
 
         // Post request
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] SaveVehicleMakeViewModel saveVehicleMakeViewModel)
+        public async Task<IActionResult> PostAsync([FromBody] VehicleMakeViewModel vehicleMakeViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
             
-            var vehicleMake = _mapper.Map<SaveVehicleMakeViewModel, VehicleMake>(saveVehicleMakeViewModel);
+            var vehicleMake = _mapper.Map<VehicleMakeViewModel, VehicleMake>(vehicleMakeViewModel);
 
             var result = await _vehicleMakeService.SaveAsync(vehicleMake);
 

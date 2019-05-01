@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
-using VehicleWebApp.MVC.ViewModels.VehicleModelViewModels;
+using VehicleWebApp.MVC.ViewModels;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common.APIErrors;
 using VehicleWebApp.Service.Services.Common;
@@ -35,11 +34,11 @@ namespace VehicleWebApp.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] SaveVehicleModelViewModel saveVehicleModelViewModel)
+        public async Task<IActionResult> PostAsync([FromBody] VehicleModelViewModel vehicleModelViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
 
-            var vehicleModelToSave = _mapper.Map<SaveVehicleModelViewModel, VehicleModel>(saveVehicleModelViewModel);
+            var vehicleModelToSave = _mapper.Map<VehicleModelViewModel, VehicleModel>(vehicleModelViewModel);
 
             var result = await _vehicleModelService.SaveAsync(vehicleModelToSave);
 
