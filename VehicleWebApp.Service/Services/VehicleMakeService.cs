@@ -28,6 +28,9 @@ namespace VehicleWebApp.Service.Services
         public async Task<PagedList<VehicleMake>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel)
         {
             // Throw exception when model is not null but values are off? i.e. sortingModel.SortOrder = bla, number of page or objects per page beyond index
+
+            //if (!string.IsNullOrEmpty(sortingModel.SortOrder) 
+
             return await _vehicleMakeRepository.ListAsync(pagingModel, sortingModel, filteringModel);
         }
   
@@ -49,12 +52,13 @@ namespace VehicleWebApp.Service.Services
         }
 
         // Update
-        public async Task<VehicleMakeResponse> UpdateAsync(Guid id, VehicleMake vehicleMake)
+        public async Task<VehicleMakeResponse> UpdateAsync(Guid id)
         {
             var vehicleMakeToUpdate = await _vehicleMakeRepository.FindByIdAsync(id);
 
             if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle make, please check the Id");
 
+            /*
             // Update properties
             // name
             if (!string.IsNullOrEmpty(vehicleMake.Name))
@@ -75,7 +79,7 @@ namespace VehicleWebApp.Service.Services
             {
                 vehicleMakeToUpdate.Abbreviation = vehicleMakeToUpdate.Abbreviation;
             }
-
+            */
             try
             {
                 _vehicleMakeRepository.Update(vehicleMakeToUpdate);

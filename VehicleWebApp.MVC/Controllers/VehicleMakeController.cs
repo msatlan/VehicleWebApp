@@ -43,39 +43,11 @@ namespace VehicleWebApp.MVC.Controllers
             var filteringModel = _mapper.Map<QueryViewModel, FilteringModel>(viewModel);
             var sortingModel = _mapper.Map<QueryViewModel, SortingModel>(viewModel);
 
-            if (string.IsNullOrEmpty(viewModel.SortOrder) && string.IsNullOrEmpty(viewModel.SearchString))
-            {
-                var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, null, null);
+            var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, sortingModel, filteringModel);
 
-                var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+            var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
 
-                return Ok(vehicleMakeViewModel);
-            }
-            else if (string.IsNullOrEmpty(viewModel.SortOrder) && !string.IsNullOrEmpty(viewModel.SearchString))
-            {
-                var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, null, filteringModel);
-
-                var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
-
-                return Ok(vehicleMakeViewModel);
-            }
-            else if (!string.IsNullOrEmpty(viewModel.SortOrder) && string.IsNullOrEmpty(viewModel.SearchString))
-            {
-                var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, sortingModel, null);
-
-                var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
-
-                return Ok(vehicleMakeViewModel);
-            }
-            else
-            {
-                var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, sortingModel, filteringModel);
-
-                var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
-
-                return Ok(vehicleMakeViewModel);
-            }
-    
+            return Ok(vehicleMakeViewModel);
          }
 
         // Post request
@@ -103,7 +75,7 @@ namespace VehicleWebApp.MVC.Controllers
 
             var vehicleMakeToUpdate = _mapper.Map<VehicleMakeViewModel, VehicleMake>(vehicleMakeViewModel);
 
-            var result = await _vehicleMakeService.UpdateAsync(id, vehicleMakeToUpdate);
+            var result = await _vehicleMakeService.UpdateAsync(id);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
