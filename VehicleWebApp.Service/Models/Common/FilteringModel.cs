@@ -6,6 +6,6 @@ namespace VehicleWebApp.Service.Models.Common
 {
     public class FilteringModel
     {
-        public string SearchString { get; set; }
+        public string Filter { get; set; }
     }
 }

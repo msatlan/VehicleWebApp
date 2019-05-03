@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels;
+using VehicleWebApp.Service.Common;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
 using VehicleWebApp.Service.Models.Common.APIErrors;
@@ -36,7 +37,7 @@ namespace VehicleWebApp.MVC.Controllers
         //        * filtered paged results: https://localhost:44391/api/vehicleMakes?searchString=(string)&currentPage=(int)&objectsPerPage=(int)
         // * filtered sorted paged results: https://localhost:44391/api/vehicleMakes?searchString=(string)&sortOrder=(string)&currentPage=(int)&objectsPerPage=(int)
 
-        [HttpGet]
+        [HttpGet("/api/vehicleMakes/get")]
         public async Task<IActionResult> GetAsync([FromQuery] QueryViewModel viewModel)
         {
             var pagingModel = _mapper.Map<QueryViewModel, PagingModel>(viewModel);
@@ -45,13 +46,29 @@ namespace VehicleWebApp.MVC.Controllers
 
             var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, sortingModel, filteringModel);
 
+            
+
             var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
 
-            return Ok(vehicleMakeViewModel);
+            var jsonResponse = new
+            {
+                data = vehicleMakeViewModel,
+                queryParams = new
+                {
+                    pageNo = vehicleMakes.CurrentPage,
+                    totalPages = vehicleMakes.TotalPages,
+                    hasNextPage = vehicleMakes.HasNextPage,
+                    hasPreviousPage = vehicleMakes.HasPreviousPage,
+                    currentFilter = filteringModel.Filter ?? "none",
+                    sortOrder = sortingModel.SortBy ?? "id"
+                }
+            };
+
+            return Ok(jsonResponse);
          }
 
         // Post request
-        [HttpPost]
+        [HttpPost("/api/vehicleMakes/insert")]
         public async Task<IActionResult> PostAsync([FromBody] VehicleMakeViewModel vehicleMakeViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
@@ -68,7 +85,7 @@ namespace VehicleWebApp.MVC.Controllers
         }
         
         // Put request
-        [HttpPut("{id}")]
+        [HttpPut("/api/vehicleMakes/update/{id}")]
         public async Task<IActionResult> PutAsync(Guid id, [FromBody] VehicleMakeViewModel vehicleMakeViewModel) 
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
@@ -85,7 +102,7 @@ namespace VehicleWebApp.MVC.Controllers
         }
 
         // Delete request
-        [HttpDelete("{id}")]
+        [HttpDelete("/api/vehicleMakes/delete/{id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var result = await _vehicleMakeService.DeleteAsync(id);

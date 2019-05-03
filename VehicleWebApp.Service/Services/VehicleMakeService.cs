@@ -28,9 +28,6 @@ namespace VehicleWebApp.Service.Services
         public async Task<PagedList<VehicleMake>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel)
         {
             // Throw exception when model is not null but values are off? i.e. sortingModel.SortOrder = bla, number of page or objects per page beyond index
-
-            //if (!string.IsNullOrEmpty(sortingModel.SortOrder) 
-
             return await _vehicleMakeRepository.ListAsync(pagingModel, sortingModel, filteringModel);
         }
   

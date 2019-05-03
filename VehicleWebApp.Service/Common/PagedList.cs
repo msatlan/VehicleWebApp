@@ -1,16 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace VehicleWebApp.Service.Common
 {
-    public class PagedList<T> : List<T> 
+    public class PagedList<T> : List<T>
     {
-        public PagedList(List<T> items, int currentPage, int objectsPerPage)
+        public int CurrentPage { get; set; }
+
+        public int TotalPages { get; set; }
+
+        public bool HasNextPage
         {
+            get { return (CurrentPage < TotalPages); }
+        }
+
+        public bool HasPreviousPage
+        {
+            get { return (CurrentPage > 1); }
+        }
+
+
+        public PagedList(List<T> items, int currentPage, int objectsPerPage, int totalObjects)
+        {
+            CurrentPage = currentPage;
+            TotalPages = (int)Math.Ceiling(totalObjects / (double)objectsPerPage);
+
             AddRange(items);
         }
 
@@ -20,7 +39,9 @@ namespace VehicleWebApp.Service.Common
                                     .Take(objectsPerPage)
                                     .ToListAsync();
 
-            return new PagedList<T>(items, currentPage, objectsPerPage);
+            int totalObjects = source.Count();
+
+            return new PagedList<T>(items, currentPage, objectsPerPage, totalObjects);
         }
     }
 }

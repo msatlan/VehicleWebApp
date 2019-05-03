@@ -6,6 +6,6 @@ namespace VehicleWebApp.Service.Models.Common
 {
     public class SortingModel
     {
-        public string SortOrder { get; set; }
+        public string SortBy { get; set; }
     }
 }

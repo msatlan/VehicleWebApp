@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleWebApp.Service.Contexts;
 
 namespace VehicleWebApp.MVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190503080859_mig999")]
+    partial class mig999
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,20 +72,20 @@ namespace VehicleWebApp.MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4a4b6dd7-21cb-4a53-aa65-fdac08036e0b"),
+                            Id = new Guid("d9a67ea9-4d1e-4294-ab25-622a6a0a0bef"),
                             MakeId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "206"
                         },
                         new
                         {
-                            Id = new Guid("c85ab8ef-facc-4da2-bac2-67ce92719f09"),
+                            Id = new Guid("fd94fd45-2040-4492-9f9b-a84eda78b64b"),
                             Abbreviation = "Dvjestosedmica",
                             MakeId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "207"
                         },
                         new
                         {
-                            Id = new Guid("aac39be9-d4c8-46ee-aa1e-b68ac79386f6"),
+                            Id = new Guid("a40d5533-4402-4918-93c0-a7a3d9dec30c"),
                             MakeId = new Guid("00000000-0000-0000-0000-000000000002"),
                             Name = "M4"
                         });

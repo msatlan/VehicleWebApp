@@ -24,36 +24,36 @@ namespace VehicleWebApp.Service.Repositories
             var vehicleMakes = from vehicle in _context.VehicleMakes select vehicle;
 
             // Filtering
-            if (filteringModel.SearchString != null)
+            if (filteringModel.Filter != null)
             {
-                vehicleMakes = vehicleMakes.Where(vehicleMake => vehicleMake.Name.Contains(filteringModel.SearchString)
-                                                                 || vehicleMake.Abbreviation.Contains(filteringModel.SearchString));
+                vehicleMakes = vehicleMakes.Where(vehicleMake => vehicleMake.Name.Contains(filteringModel.Filter)
+                                                                 || vehicleMake.Abbreviation.Contains(filteringModel.Filter));
             }
 
             // Sorting
-            if (string.IsNullOrEmpty(sortingModel.SortOrder))
+            if (string.IsNullOrEmpty(sortingModel.SortBy))
             {
                 vehicleMakes = vehicleMakes.OrderBy(vehicleMake => vehicleMake.Id);
             }
-            else if (sortingModel.SortOrder.Equals("Name", StringComparison.OrdinalIgnoreCase))
+            else if (sortingModel.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
             {
                 vehicleMakes = vehicleMakes.OrderBy(vehicleMake => vehicleMake.Name);
             }
-            else if (sortingModel.SortOrder.Equals("NameDesc", StringComparison.OrdinalIgnoreCase))
+            else if (sortingModel.SortBy.Equals("NameDesc", StringComparison.OrdinalIgnoreCase))
             {
                 vehicleMakes = vehicleMakes.OrderByDescending(vehicleMake => vehicleMake.Name);
             }
-            else if (sortingModel.SortOrder.Equals("Abrv", StringComparison.OrdinalIgnoreCase))
+            else if (sortingModel.SortBy.Equals("Abrv", StringComparison.OrdinalIgnoreCase))
             {
                 vehicleMakes = vehicleMakes.OrderBy(vehicleMake => vehicleMake.Abbreviation);
             }
-            else if (sortingModel.SortOrder.Equals("AbrvDesc", StringComparison.OrdinalIgnoreCase))
+            else if (sortingModel.SortBy.Equals("AbrvDesc", StringComparison.OrdinalIgnoreCase))
             {
                  vehicleMakes = vehicleMakes.OrderByDescending(vehicleMake => vehicleMake.Abbreviation);
             } 
             
             // Paging
-            return await PagedList<VehicleMake>.CreateAsync(vehicleMakes.AsNoTracking(), 
+            return await PagedList<VehicleMake>.CreateAsync(vehicleMakes, 
                                                             pagingModel.CurrentPage ?? 1, 
                                                             pagingModel.ObjectsPerPage ?? _context.VehicleMakes.Count());
         }

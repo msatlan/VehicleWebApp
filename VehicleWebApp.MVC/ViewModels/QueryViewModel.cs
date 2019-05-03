@@ -7,12 +7,12 @@ namespace VehicleWebApp.MVC.ViewModels
 {
     public class QueryViewModel
     {
-        public int? CurrentPage { get; set; }
+        public int? CurrentPage { get; set; } 
 
         public int? ObjectsPerPage { get; set; }
 
-        public string SearchString { get; set; }
+        public string Filter { get; set; }
 
-        public string SortOrder { get; set; }
+        public string SortBy { get; set; }
     }
 }

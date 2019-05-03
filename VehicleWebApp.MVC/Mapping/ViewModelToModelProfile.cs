@@ -13,8 +13,7 @@ namespace VehicleWebApp.MVC.Mapping
 
             CreateMap<VehicleModelViewModel, VehicleModel>();
 
-            CreateMap<QueryViewModel, PagingModel>().ForMember(dest => dest.CurrentPage, opts => opts.NullSubstitute(1))
-                .ForMember(dest => dest.ObjectsPerPage, opts => opts.NullSubstitute(3));
+            CreateMap<QueryViewModel, PagingModel>();
 
             CreateMap<QueryViewModel, SortingModel>();
 
