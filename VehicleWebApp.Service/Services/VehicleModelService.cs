@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleWebApp.Service.Common;
 using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
+using VehicleWebApp.Service.Models.Common;
 using VehicleWebApp.Service.Repositories.Common;
 using VehicleWebApp.Service.Services.Common;
 
@@ -24,9 +26,9 @@ namespace VehicleWebApp.Service.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<VehicleModel>> ListAsync()
+        public async Task<PagedList<VehicleModel>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel)
         {
-            return await _vehicleModelRepository.ListAsync();
+            return await _vehicleModelRepository.ListAsync(pagingModel, sortingModel, filteringModel);
         }
 
         public async Task<VehicleModelResponse> InsertAsync(VehicleModel vehicleModel)

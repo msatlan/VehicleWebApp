@@ -29,13 +29,13 @@ namespace VehicleWebApp.MVC.Controllers
         }
 
         // Get request
-        //             * results on 1 page: https://localhost:44391/api/vehicleMakes  
-        //                 * paged results: https://localhost:44391/api/vehicleMakes?currentPage=(int)&objectsPerPage=(int)
-        //         * sorted results 1 page: https://localhost:44391/api/vehicleMakes?sortOrder=(string)
-        //          * sorted paged results: https://localhost:44391/api/vehicleMakes?sortOrder=(string)&currentPage=(int)&objectsPerPage=(int)
-        //       * filtered results 1 page: https://localhost:44391/api/vehicleMakes?searchString=(string)
-        //        * filtered paged results: https://localhost:44391/api/vehicleMakes?searchString=(string)&currentPage=(int)&objectsPerPage=(int)
-        // * filtered sorted paged results: https://localhost:44391/api/vehicleMakes?searchString=(string)&sortOrder=(string)&currentPage=(int)&objectsPerPage=(int)
+        //             * results on 1 page: https://localhost:44391/api/vehicleMakes/get  
+        //                 * paged results: https://localhost:44391/api/vehicleMakes/get?currentPage=(int)&objectsPerPage=(int)
+        //         * sorted results 1 page: https://localhost:44391/api/vehicleMakes/get?sortBy=(string)
+        //          * sorted paged results: https://localhost:44391/api/vehicleMakes/get?sortBy=(string)&currentPage=(int)&objectsPerPage=(int)
+        //       * filtered results 1 page: https://localhost:44391/api/vehicleMakes/get?filter=(string)
+        //        * filtered paged results: https://localhost:44391/api/vehicleMakes/get?filter=(string)&currentPage=(int)&objectsPerPage=(int)
+        // * filtered sorted paged results: https://localhost:44391/api/vehicleMakes/get?filter=(string)&sortby=(string)&currentPage=(int)&objectsPerPage=(int)
 
         [HttpGet("/api/vehicleMakes/get")]
         public async Task<IActionResult> GetAsync([FromQuery] QueryViewModel viewModel)
@@ -45,8 +45,6 @@ namespace VehicleWebApp.MVC.Controllers
             var sortingModel = _mapper.Map<QueryViewModel, SortingModel>(viewModel);
 
             var vehicleMakes = await _vehicleMakeService.ListAsync(pagingModel, sortingModel, filteringModel);
-
-            
 
             var vehicleMakeViewModel = _mapper.Map<IEnumerable<VehicleMake>, IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
 

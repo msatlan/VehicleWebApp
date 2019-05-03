@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels;
 using VehicleWebApp.Service.Models;
+using VehicleWebApp.Service.Models.Common;
 using VehicleWebApp.Service.Models.Common.APIErrors;
 using VehicleWebApp.Service.Services.Common;
 
@@ -23,14 +25,32 @@ namespace VehicleWebApp.MVC.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        [HttpGet("/api/vehicleModels/get")]
+        public async Task<IActionResult> GetAsync([FromQuery] QueryViewModel viewModel)
         {
-            var vehicleModels = await _vehicleModelService.ListAsync();
+            var pagingModel = _mapper.Map<QueryViewModel, PagingModel>(viewModel);
+            var filteringModel = _mapper.Map<QueryViewModel, FilteringModel>(viewModel);
+            var sortingModel = _mapper.Map<QueryViewModel, SortingModel>(viewModel);
 
-            var viewModel = _mapper.Map<IEnumerable<VehicleModel>, IEnumerable<VehicleModelViewModel>>(vehicleModels);
+            var vehicleModels = await _vehicleModelService.ListAsync(pagingModel, sortingModel, filteringModel);
 
-            return Ok(viewModel);
+            var vehicleModelViewModel = _mapper.Map<IEnumerable<VehicleModel>, IEnumerable<VehicleModelViewModel>>(vehicleModels);
+
+            var jsonResponse = new
+            {
+                data = vehicleModelViewModel,
+                queryParams = new
+                {
+                    pageNo = vehicleModels.CurrentPage,
+                    totalPages = vehicleModels.TotalPages,
+                    hasNextPage = vehicleModels.HasNextPage,
+                    hasPreviousPage = vehicleModels.HasPreviousPage,
+                    currentFilter = filteringModel.Filter ?? "none",
+                    sortOrder = sortingModel.SortBy ?? "id"
+                }
+            };
+
+            return Ok(jsonResponse);
         }
 
         [HttpPost]
