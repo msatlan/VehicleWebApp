@@ -12,7 +12,7 @@ namespace VehicleWebApp.Service.Repositories.Common
     {
         Task<PagedList<VehicleMake>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel);
         Task AddAsync(VehicleMake vehicleMake);
-        Task<VehicleMake> FindByIdAsync(Guid id);
+        Task<VehicleMake> FindByIdAsync(Guid? id);
         void Update(VehicleMake vehicleMake);
         void Remove(VehicleMake vehicleMake);
     }

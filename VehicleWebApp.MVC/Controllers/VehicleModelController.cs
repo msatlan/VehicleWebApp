@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels;
+using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
 using VehicleWebApp.Service.Models.Common.APIErrors;
@@ -25,7 +26,7 @@ namespace VehicleWebApp.MVC.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("/api/vehicleModels/get")]
+        [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] QueryViewModel viewModel)
         {
             var pagingModel = _mapper.Map<QueryViewModel, PagingModel>(viewModel);
@@ -85,12 +86,28 @@ namespace VehicleWebApp.MVC.Controllers
             return Ok(viewModel);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+        [HttpDelete("{id?}")]
+        public async Task<IActionResult> DeleteAsync(Guid? id)
         {
             var result = await _vehicleModelService.DeleteAsync(id);
 
-            if (!result.Success) return BadRequest(new BadRequestError(result.Message));
+            if (!result.Success)
+            {
+                switch (result.ErrorType)
+                {
+                    case ErrorType.BadRequest:
+                        return BadRequest(new BadRequestError(result.Message));
+
+                    case ErrorType.NotFound:
+                        return NotFound(new NotFoundError(result.Message));
+
+                    case ErrorType.Other:
+                        return BadRequest(new BadRequestError(result.Message));
+
+                    default:
+                        break;
+                }
+            }
 
             var viewModel = _mapper.Map<VehicleModel, VehicleModelViewModel>(result.VehicleModel);
 

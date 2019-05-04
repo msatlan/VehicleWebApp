@@ -13,17 +13,19 @@ namespace VehicleWebApp.Service.Communication
 
         public VehicleModel VehicleModel { get; set; }
 
+        public ErrorType ErrorType { get; set; }
 
-        private VehicleModelResponse(bool success, string message, VehicleModel vehicleModel)
+
+        private VehicleModelResponse(bool success, string message, VehicleModel vehicleModel, ErrorType errorType)
         {
             Success = success;
             Message = message;
             VehicleModel = vehicleModel;
+            ErrorType = errorType;
         } 
 
-        public VehicleModelResponse(string message) : this(false, message, null) { }
+        public VehicleModelResponse(string message, ErrorType errorType) : this(false, message, null, errorType) { }
 
-        public VehicleModelResponse(VehicleModel vehicleModel) : this(true, string.Empty, vehicleModel) { }
-
+        public VehicleModelResponse(VehicleModel vehicleModel) : this(true, string.Empty, vehicleModel, ErrorType.Null) { }
     }
 }

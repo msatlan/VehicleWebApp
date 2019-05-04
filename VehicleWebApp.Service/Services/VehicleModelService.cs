@@ -38,7 +38,7 @@ namespace VehicleWebApp.Service.Services
                 // check if related vehicle make exists
                 var relatedVehicleMake = await _vehicleMakeRepository.FindByIdAsync(vehicleModel.MakeId);
 
-                if (relatedVehicleMake == null) return new VehicleModelResponse("Invalid Vehicle Make");
+                if (relatedVehicleMake == null) return new VehicleModelResponse("Invalid Vehicle Make", ErrorType.BadRequest);
 
                 // try to save vehicle model if vehicle make exists
                 await _vehicleModelRepository.AddAsync(vehicleModel);
@@ -50,7 +50,7 @@ namespace VehicleWebApp.Service.Services
             }
             catch (Exception exception)
             {
-                return new VehicleModelResponse(exception.Message);   
+                return new VehicleModelResponse(exception.Message, ErrorType.Other);   
             }
         }
 
@@ -58,7 +58,7 @@ namespace VehicleWebApp.Service.Services
         {
             var vehicleModelToUpdate = await _vehicleModelRepository.FindById(id);
 
-            if (vehicleModelToUpdate == null) return new VehicleModelResponse("Non-existing vehicle model, please check the Id");
+            if (vehicleModelToUpdate == null) return new VehicleModelResponse("Non-existing vehicle model, please check the Id", ErrorType.BadRequest);
 
 
             if (string.IsNullOrEmpty(vehicleModel.Name))
@@ -90,15 +90,17 @@ namespace VehicleWebApp.Service.Services
             }
             catch (Exception exception)
             {
-                return new VehicleModelResponse(exception.Message);
+                return new VehicleModelResponse(exception.Message, ErrorType.Other);
             }
         }
 
-        public async Task<VehicleModelResponse> DeleteAsync(Guid id)
+        public async Task<VehicleModelResponse> DeleteAsync(Guid? id)
         {
+            if (id == null) return new VehicleModelResponse("Id is null or wrong type, please enter a valid Id", ErrorType.BadRequest);
+
             var vehicleModelToDelete = await _vehicleModelRepository.FindById(id);
 
-            if (vehicleModelToDelete == null) return new VehicleModelResponse("Non - existing vehicle model, please check the Id");
+            if (vehicleModelToDelete == null) return new VehicleModelResponse("Non-existing vehicle model, please enter a valid Id", ErrorType.NotFound);
 
             try
             {
@@ -111,7 +113,7 @@ namespace VehicleWebApp.Service.Services
             }
             catch (Exception exception)
             {
-                return new VehicleModelResponse(exception.Message);
+                return new VehicleModelResponse(exception.Message, ErrorType.Other);
             }
         }
 

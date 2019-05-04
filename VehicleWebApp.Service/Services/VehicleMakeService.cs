@@ -23,7 +23,7 @@ namespace VehicleWebApp.Service.Services
             _vehicleMakeRepository = vehicleMakeRepository;
             _unitOfWork = unitOfWork;
         }
-
+        
         // Get all
         public async Task<PagedList<VehicleMake>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel)
         {
@@ -41,10 +41,9 @@ namespace VehicleWebApp.Service.Services
 
                 return new VehicleMakeResponse(vehicleMake);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return new VehicleMakeResponse(ex.Message);
-
+                return new VehicleMakeResponse(exception.Message, ErrorType.Other);
             }
         }
 
@@ -53,7 +52,7 @@ namespace VehicleWebApp.Service.Services
         {
             var vehicleMakeToUpdate = await _vehicleMakeRepository.FindByIdAsync(id);
 
-            if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle make, please check the Id");
+            if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle make, please check the Id", ErrorType.BadRequest);
 
             /*
             // Update properties
@@ -88,16 +87,18 @@ namespace VehicleWebApp.Service.Services
             {
                 //if (exception.InnerException != null) return new SaveVehicleMakeResponse(exception.InnerException.ToString());
 
-                return new VehicleMakeResponse(exception.Message);
+                return new VehicleMakeResponse(exception.Message, ErrorType.Other);
             }
         }
-
+        
         // Delete
-        public async Task<VehicleMakeResponse> DeleteAsync(Guid id)
+        public async Task<VehicleMakeResponse> DeleteAsync(Guid? id)
         {
+            if (id == null) return new VehicleMakeResponse("Id is null or wrong type, please enter a valid Id", ErrorType.BadRequest); 
+
             var vehicleMakeToDelete = await _vehicleMakeRepository.FindByIdAsync(id);
 
-            if (vehicleMakeToDelete == null) return new VehicleMakeResponse("Non-existing vehicle make, please check the Id");
+            if (vehicleMakeToDelete == null) return new VehicleMakeResponse("Non-existing vehicle make, please enter a valid Id", ErrorType.NotFound);
 
             try
             {
@@ -107,8 +108,8 @@ namespace VehicleWebApp.Service.Services
                 return new VehicleMakeResponse(vehicleMakeToDelete);
             }
             catch (Exception exception)
-            {
-                return new VehicleMakeResponse(exception.Message);
+            { 
+                return new VehicleMakeResponse(exception.Message, ErrorType.Other);
             }
         }
     }

@@ -65,7 +65,7 @@ namespace VehicleWebApp.Service.Repositories
         }
 
         // Find vehicle make by id 
-        public async Task<VehicleMake> FindByIdAsync(Guid id)
+        public async Task<VehicleMake> FindByIdAsync(Guid? id)
         {
             return await _context.VehicleMakes.FindAsync(id);
         }

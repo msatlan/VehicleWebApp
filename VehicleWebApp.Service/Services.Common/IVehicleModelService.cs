@@ -14,6 +14,6 @@ namespace VehicleWebApp.Service.Services.Common
         Task<PagedList<VehicleModel>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel);
         Task<VehicleModelResponse> InsertAsync(VehicleModel vehicleModel);
         Task<VehicleModelResponse> UpdateAsync(Guid id, VehicleModel vehicleModel);
-        Task<VehicleModelResponse> DeleteAsync(Guid id);
+        Task<VehicleModelResponse> DeleteAsync(Guid? id);
     }
 }

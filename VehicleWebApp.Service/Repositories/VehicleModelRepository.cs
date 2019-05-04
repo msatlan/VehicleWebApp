@@ -73,7 +73,7 @@ namespace VehicleWebApp.Service.Repositories
         }
 
         // Find by Id 
-        public async Task<VehicleModel> FindById(Guid Id)
+        public async Task<VehicleModel> FindById(Guid? Id)
         {
             return await _context.VehicleModels.FindAsync(Id);
         }

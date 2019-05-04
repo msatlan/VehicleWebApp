@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using VehicleWebApp.MVC.Extensions;
 using VehicleWebApp.MVC.ViewModels;
 using VehicleWebApp.Service.Common;
+using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
 using VehicleWebApp.Service.Models.Common.APIErrors;
@@ -29,15 +30,15 @@ namespace VehicleWebApp.MVC.Controllers
         }
 
         // Get request
-        //             * results on 1 page: https://localhost:44391/api/vehicleMakes/get  
-        //                 * paged results: https://localhost:44391/api/vehicleMakes/get?currentPage=(int)&objectsPerPage=(int)
-        //         * sorted results 1 page: https://localhost:44391/api/vehicleMakes/get?sortBy=(string)
-        //          * sorted paged results: https://localhost:44391/api/vehicleMakes/get?sortBy=(string)&currentPage=(int)&objectsPerPage=(int)
-        //       * filtered results 1 page: https://localhost:44391/api/vehicleMakes/get?filter=(string)
-        //        * filtered paged results: https://localhost:44391/api/vehicleMakes/get?filter=(string)&currentPage=(int)&objectsPerPage=(int)
-        // * filtered sorted paged results: https://localhost:44391/api/vehicleMakes/get?filter=(string)&sortby=(string)&currentPage=(int)&objectsPerPage=(int)
+        //             * results on 1 page: https://localhost:44391/api/vehicleMakes  
+        //                 * paged results: https://localhost:44391/api/vehicleMakes?currentPage=(int)&objectsPerPage=(int)
+        //         * sorted results 1 page: https://localhost:44391/api/vehicleMakes?sortBy=(string)
+        //          * sorted paged results: https://localhost:44391/api/vehicleMakes?sortBy=(string)&currentPage=(int)&objectsPerPage=(int)
+        //       * filtered results 1 page: https://localhost:44391/api/vehicleMakes?filter=(string)
+        //        * filtered paged results: https://localhost:44391/api/vehicleMakes?filter=(string)&currentPage=(int)&objectsPerPage=(int)
+        // * filtered sorted paged results: https://localhost:44391/api/vehicleMakes?filter=(string)&sortby=(string)&currentPage=(int)&objectsPerPage=(int)
 
-        [HttpGet("/api/vehicleMakes/get")]
+        [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] QueryViewModel viewModel)
         {
             var pagingModel = _mapper.Map<QueryViewModel, PagingModel>(viewModel);
@@ -66,7 +67,7 @@ namespace VehicleWebApp.MVC.Controllers
          }
 
         // Post request
-        [HttpPost("/api/vehicleMakes/insert")]
+        [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] VehicleMakeViewModel vehicleMakeViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
@@ -83,7 +84,7 @@ namespace VehicleWebApp.MVC.Controllers
         }
         
         // Put request
-        [HttpPut("/api/vehicleMakes/update/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(Guid id, [FromBody] VehicleMakeViewModel vehicleMakeViewModel) 
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
@@ -100,12 +101,28 @@ namespace VehicleWebApp.MVC.Controllers
         }
 
         // Delete request
-        [HttpDelete("/api/vehicleMakes/delete/{id}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+        [HttpDelete("{id?}")]
+        public async Task<IActionResult> DeleteAsync(Guid? id)
         {
             var result = await _vehicleMakeService.DeleteAsync(id);
 
-            if (!result.Success) return BadRequest(new BadRequestError(result.Message));
+            if (!result.Success)
+            {
+                switch (result.ErrorType)
+                {
+                    case ErrorType.BadRequest:
+                        return BadRequest(new BadRequestError(result.Message));
+
+                    case ErrorType.NotFound:
+                        return NotFound(new NotFoundError(result.Message));
+
+                    case ErrorType.Other:
+                        return BadRequest(new BadRequestError(result.Message));
+
+                    default:
+                        break;
+                }
+            } 
 
             var viewModel = _mapper.Map<VehicleMake, VehicleMakeViewModel>(result.VehicleMake);
 
