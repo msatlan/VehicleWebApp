@@ -48,11 +48,17 @@ namespace VehicleWebApp.Service.Services
         }
 
         // Update
-        public async Task<VehicleMakeResponse> UpdateAsync(Guid id)
+        public async Task<VehicleMakeResponse> UpdateAsync(VehicleMake vehicleMake)
         {
+            if (vehicleMake == null) return new VehicleMakeResponse("Non-existing vehicle make, please enter a valid Id", ErrorType.BadRequest);
+
+            /*
+            if (id == null) return new VehicleMakeResponse("Id is null or of wrong type, please enter a valid Id", ErrorType.BadRequest);
+
             var vehicleMakeToUpdate = await _vehicleMakeRepository.FindByIdAsync(id);
 
-            if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle make, please check the Id", ErrorType.BadRequest);
+            if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle make, please enter a valid Id", ErrorType.NotFound);
+
 
             /*
             // Update properties
@@ -78,14 +84,14 @@ namespace VehicleWebApp.Service.Services
             */
             try
             {
-                _vehicleMakeRepository.Update(vehicleMakeToUpdate);
+                _vehicleMakeRepository.Update(vehicleMake);
                 await _unitOfWork.CompleteAsync();
 
-                return new VehicleMakeResponse(vehicleMakeToUpdate);
+                return new VehicleMakeResponse(vehicleMake);
             }
             catch (Exception exception)
             {
-                //if (exception.InnerException != null) return new SaveVehicleMakeResponse(exception.InnerException.ToString());
+                //if (exception.InnerException != null) return new VehicleMakeResponse(exception.InnerException.ToString(), ErrorType.Other);
 
                 return new VehicleMakeResponse(exception.Message, ErrorType.Other);
             }
@@ -94,7 +100,7 @@ namespace VehicleWebApp.Service.Services
         // Delete
         public async Task<VehicleMakeResponse> DeleteAsync(Guid? id)
         {
-            if (id == null) return new VehicleMakeResponse("Id is null or wrong type, please enter a valid Id", ErrorType.BadRequest); 
+            if (id == null) return new VehicleMakeResponse("Id is null or of wrong type, please enter a valid Id", ErrorType.BadRequest); 
 
             var vehicleMakeToDelete = await _vehicleMakeRepository.FindByIdAsync(id);
 

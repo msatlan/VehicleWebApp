@@ -96,7 +96,7 @@ namespace VehicleWebApp.Service.Services
 
         public async Task<VehicleModelResponse> DeleteAsync(Guid? id)
         {
-            if (id == null) return new VehicleModelResponse("Id is null or wrong type, please enter a valid Id", ErrorType.BadRequest);
+            if (id == null) return new VehicleModelResponse("Id is null or of wrong type, please enter a valid Id", ErrorType.BadRequest);
 
             var vehicleModelToDelete = await _vehicleModelRepository.FindById(id);
 

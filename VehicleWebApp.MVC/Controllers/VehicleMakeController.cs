@@ -11,6 +11,7 @@ using VehicleWebApp.Service.Communication;
 using VehicleWebApp.Service.Models;
 using VehicleWebApp.Service.Models.Common;
 using VehicleWebApp.Service.Models.Common.APIErrors;
+using VehicleWebApp.Service.Repositories.Common;
 using VehicleWebApp.Service.Services.Common;
 
 namespace VehicleWebApp.MVC.Controllers
@@ -20,12 +21,14 @@ namespace VehicleWebApp.MVC.Controllers
     {
         // Added with dependency injection 
         private readonly IVehicleMakeService _vehicleMakeService;
+        private readonly IVehicleMakeRepository _vehicleMakeRepository;
         private readonly IMapper _mapper;
 
         // Constructor
-        public VehicleMakeController(IVehicleMakeService vehicleMakeService, IMapper mapper)
+        public VehicleMakeController(IVehicleMakeService vehicleMakeService, IMapper mapper, IVehicleMakeRepository vehicleMakeRepository)
         {
             _vehicleMakeService = vehicleMakeService;
+            _vehicleMakeRepository = vehicleMakeRepository;
             _mapper = mapper;
         }
 
@@ -84,14 +87,25 @@ namespace VehicleWebApp.MVC.Controllers
         }
         
         // Put request
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, [FromBody] VehicleMakeViewModel vehicleMakeViewModel) 
+        [HttpPut("{id?}")]
+        public async Task<IActionResult> PutAsync(Guid? id, [FromBody] VehicleMakeViewModel vehicleMakeViewModel) 
         {
-            if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
+            if (id == null) return BadRequest(new BadRequestError("Id is null or of wrong type, please enter a valid Id"));
 
-            var vehicleMakeToUpdate = _mapper.Map<VehicleMakeViewModel, VehicleMake>(vehicleMakeViewModel);
+            var vehicleMake = await _vehicleMakeRepository.FindByIdAsync(id);
 
-            var result = await _vehicleMakeService.UpdateAsync(id);
+            if (vehicleMake == null)
+            {
+                var errorResult = await _vehicleMakeService.UpdateAsync(null);
+
+                if (!errorResult.Success) return BadRequest(new BadRequestError(errorResult.Message));
+            }
+
+            if (string.IsNullOrEmpty(vehicleMakeViewModel.Name)) return BadRequest(new BadRequestError("Name field is required"));
+
+            vehicleMake = _mapper.Map<VehicleMakeViewModel, VehicleMake>(vehicleMakeViewModel);
+
+            var result = await _vehicleMakeService.UpdateAsync(vehicleMake);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
