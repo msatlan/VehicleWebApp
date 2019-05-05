@@ -14,7 +14,12 @@ namespace VehicleWebApp.Service.Repositories
 {
     public class VehicleModelRepository : BaseRepository, IVehicleModelRepository
     {
-        public VehicleModelRepository(AppDbContext context) : base(context) { } 
+        private readonly IUnitOfWork _unitOfWork;
+
+        public VehicleModelRepository(AppDbContext context, IUnitOfWork unitOfWork) : base(context)
+        {
+            _unitOfWork = unitOfWork;
+        } 
 
         // Get vehicle models
         public async Task<PagedList<VehicleModel>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel)
@@ -70,6 +75,7 @@ namespace VehicleWebApp.Service.Repositories
         public async Task AddAsync(VehicleModel vehicleModel)
         {
             await _context.VehicleModels.AddAsync(vehicleModel);
+            await _unitOfWork.CompleteAsync();
         }
 
         // Find by Id 
@@ -79,15 +85,17 @@ namespace VehicleWebApp.Service.Repositories
         }
 
         // Update
-        public void Update(VehicleModel vehicleModel)
+        public async Task Update(VehicleModel vehicleModel)
         {
             _context.VehicleModels.Update(vehicleModel);
+            await _unitOfWork.CompleteAsync();
         }
 
         // Delete
-        public void Remove(VehicleModel vehicleModel)
+        public async Task Remove(VehicleModel vehicleModel)
         {
             _context.VehicleModels.Remove(vehicleModel);
+            await _unitOfWork.CompleteAsync();
         }
     }
 }

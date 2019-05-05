@@ -15,13 +15,11 @@ namespace VehicleWebApp.Service.Services
     public class VehicleMakeService : IVehicleMakeService
     {
         private readonly IVehicleMakeRepository _vehicleMakeRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
         // Constructor
-        public VehicleMakeService(IVehicleMakeRepository vehicleMakeRepository, IUnitOfWork unitOfWork)
+        public VehicleMakeService(IVehicleMakeRepository vehicleMakeRepository)
         {
             _vehicleMakeRepository = vehicleMakeRepository;
-            _unitOfWork = unitOfWork;
         }
         
         // Get all
@@ -37,7 +35,6 @@ namespace VehicleWebApp.Service.Services
             try
             {
                 await _vehicleMakeRepository.AddAsync(vehicleMake);
-                await _unitOfWork.CompleteAsync();
 
                 return new VehicleMakeResponse(vehicleMake);
             }
@@ -48,68 +45,53 @@ namespace VehicleWebApp.Service.Services
         }
 
         // Update
-        public async Task<VehicleMakeResponse> UpdateAsync(VehicleMake vehicleMake)
+        public async Task<VehicleMakeResponse> UpdateAsync(Guid? id, VehicleMake vehicleMake)
         {
-            if (vehicleMake == null) return new VehicleMakeResponse("Non-existing vehicle make, please enter a valid Id", ErrorType.BadRequest);
-
-            /*
-            if (id == null) return new VehicleMakeResponse("Id is null or of wrong type, please enter a valid Id", ErrorType.BadRequest);
-
             var vehicleMakeToUpdate = await _vehicleMakeRepository.FindByIdAsync(id);
 
-            if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle make, please enter a valid Id", ErrorType.NotFound);
+            if (vehicleMakeToUpdate == null) return new VehicleMakeResponse("Non-existing vehicle model, please check the Id", ErrorType.BadRequest);
 
-
-            /*
-            // Update properties
-            // name
-            if (!string.IsNullOrEmpty(vehicleMake.Name))
-            {
-                vehicleMakeToUpdate.Name = vehicleMake.Name;
-            }
-            else
+            if (string.IsNullOrEmpty(vehicleMake.Name))
             {
                 vehicleMakeToUpdate.Name = vehicleMakeToUpdate.Name;
             }
-            
-            // abbreviation
-            if (!string.IsNullOrEmpty(vehicleMake.Abbreviation))
-            {
-                vehicleMakeToUpdate.Abbreviation = vehicleMake.Abbreviation;
-            }
             else
+            {
+                vehicleMakeToUpdate.Name = vehicleMake.Name;
+            }
+
+
+            if (string.IsNullOrEmpty(vehicleMake.Abbreviation))
             {
                 vehicleMakeToUpdate.Abbreviation = vehicleMakeToUpdate.Abbreviation;
             }
-            */
+            else
+            {
+                vehicleMakeToUpdate.Abbreviation = vehicleMake.Abbreviation;
+            }
+
             try
             {
-                _vehicleMakeRepository.Update(vehicleMake);
-                await _unitOfWork.CompleteAsync();
+                await _vehicleMakeRepository.Update(vehicleMakeToUpdate);
 
-                return new VehicleMakeResponse(vehicleMake);
+                return new VehicleMakeResponse(vehicleMakeToUpdate);
             }
             catch (Exception exception)
             {
-                //if (exception.InnerException != null) return new VehicleMakeResponse(exception.InnerException.ToString(), ErrorType.Other);
-
                 return new VehicleMakeResponse(exception.Message, ErrorType.Other);
             }
         }
         
         // Delete
         public async Task<VehicleMakeResponse> DeleteAsync(Guid? id)
-        {
-            if (id == null) return new VehicleMakeResponse("Id is null or of wrong type, please enter a valid Id", ErrorType.BadRequest); 
-
+        { 
             var vehicleMakeToDelete = await _vehicleMakeRepository.FindByIdAsync(id);
 
             if (vehicleMakeToDelete == null) return new VehicleMakeResponse("Non-existing vehicle make, please enter a valid Id", ErrorType.NotFound);
 
             try
             {
-                _vehicleMakeRepository.Remove(vehicleMakeToDelete);
-                await _unitOfWork.CompleteAsync();
+                await _vehicleMakeRepository.Remove(vehicleMakeToDelete);
 
                 return new VehicleMakeResponse(vehicleMakeToDelete);
             }

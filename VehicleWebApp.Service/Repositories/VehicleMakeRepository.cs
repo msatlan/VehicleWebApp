@@ -14,8 +14,13 @@ namespace VehicleWebApp.Service.Repositories
 {
     public class VehicleMakeRepository : BaseRepository, IVehicleMakeRepository 
     {
+        private readonly IUnitOfWork _unitOfWork;
+
         // Constructor - calls base class constructor with context parameter
-        public VehicleMakeRepository(AppDbContext context) : base(context) { }
+        public VehicleMakeRepository(AppDbContext context, IUnitOfWork unitOfWork) : base(context)
+        {
+            _unitOfWork = unitOfWork;
+        }
 
         // Get VehicleMakes from database
         public async Task<PagedList<VehicleMake>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel)
@@ -62,6 +67,7 @@ namespace VehicleWebApp.Service.Repositories
         public async Task AddAsync(VehicleMake vehicleMake)
         {
             await _context.VehicleMakes.AddAsync(vehicleMake);
+            await _unitOfWork.CompleteAsync();
         }
 
         // Find vehicle make by id 
@@ -71,16 +77,18 @@ namespace VehicleWebApp.Service.Repositories
         }
 
         // Update vehicle make
-        public void Update(VehicleMake vehicleMake)
+        public async Task Update(VehicleMake vehicleMake)
         {
             _context.VehicleMakes.Update(vehicleMake);
+            await _unitOfWork.CompleteAsync();
         }
 
-        public void Remove(VehicleMake vehicleMake)
+        public async Task Remove(VehicleMake vehicleMake)
         {
             _context.VehicleMakes.Remove(vehicleMake);
+            await _unitOfWork.CompleteAsync();
         }
 
-        
+
     }
 }

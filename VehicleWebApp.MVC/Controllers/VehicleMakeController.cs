@@ -92,20 +92,11 @@ namespace VehicleWebApp.MVC.Controllers
         {
             if (id == null) return BadRequest(new BadRequestError("Id is null or of wrong type, please enter a valid Id"));
 
-            var vehicleMake = await _vehicleMakeRepository.FindByIdAsync(id);
+            if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
 
-            if (vehicleMake == null)
-            {
-                var errorResult = await _vehicleMakeService.UpdateAsync(null);
+            var vehicleMakeToUpdate = _mapper.Map<VehicleMakeViewModel, VehicleMake>(vehicleMakeViewModel);
 
-                if (!errorResult.Success) return BadRequest(new BadRequestError(errorResult.Message));
-            }
-
-            if (string.IsNullOrEmpty(vehicleMakeViewModel.Name)) return BadRequest(new BadRequestError("Name field is required"));
-
-            vehicleMake = _mapper.Map<VehicleMakeViewModel, VehicleMake>(vehicleMakeViewModel);
-
-            var result = await _vehicleMakeService.UpdateAsync(vehicleMake);
+            var result = await _vehicleMakeService.UpdateAsync(id, vehicleMakeToUpdate);
 
             if (!result.Success) return BadRequest(new BadRequestError(result.Message));
 
@@ -118,6 +109,8 @@ namespace VehicleWebApp.MVC.Controllers
         [HttpDelete("{id?}")]
         public async Task<IActionResult> DeleteAsync(Guid? id)
         {
+            if (id == null) return BadRequest(new BadRequestError("Id is null or of wrong type, please enter a valid Id")); 
+
             var result = await _vehicleMakeService.DeleteAsync(id);
 
             if (!result.Success)

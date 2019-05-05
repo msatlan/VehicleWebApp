@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using VehicleWebApp.Service.Common;
@@ -16,14 +17,11 @@ namespace VehicleWebApp.Service.Services
         // required to check if related vehicle make exists
         private readonly IVehicleMakeRepository _vehicleMakeRepository;
         private readonly IVehicleModelRepository _vehicleModelRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-
-        public VehicleModelService(IVehicleMakeRepository vehicleMakeRepository, IVehicleModelRepository vehicleModelRepository, IUnitOfWork unitOfWork)
+        public VehicleModelService(IVehicleMakeRepository vehicleMakeRepository, IVehicleModelRepository vehicleModelRepository)
         {
             _vehicleMakeRepository = vehicleMakeRepository;
             _vehicleModelRepository = vehicleModelRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<PagedList<VehicleModel>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel)
@@ -42,8 +40,6 @@ namespace VehicleWebApp.Service.Services
 
                 // try to save vehicle model if vehicle make exists
                 await _vehicleModelRepository.AddAsync(vehicleModel);
-
-                await _unitOfWork.CompleteAsync();
 
                 return new VehicleModelResponse(vehicleModel);
 
@@ -82,9 +78,7 @@ namespace VehicleWebApp.Service.Services
 
             try
             {
-                _vehicleModelRepository.Update(vehicleModelToUpdate);
-
-                await _unitOfWork.CompleteAsync();
+                await _vehicleModelRepository.Update(vehicleModelToUpdate);
 
                 return new VehicleModelResponse(vehicleModelToUpdate);
             }
@@ -104,9 +98,7 @@ namespace VehicleWebApp.Service.Services
 
             try
             {
-                _vehicleModelRepository.Remove(vehicleModelToDelete);
-
-                await _unitOfWork.CompleteAsync();
+                await _vehicleModelRepository.Remove(vehicleModelToDelete);
 
                 return new VehicleModelResponse(vehicleModelToDelete);
 

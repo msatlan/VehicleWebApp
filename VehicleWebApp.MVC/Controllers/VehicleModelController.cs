@@ -75,6 +75,9 @@ namespace VehicleWebApp.MVC.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(new ModelStateError(ModelState.GetErrorMessages()));
 
+            Debug.WriteLine(vehicleModelViewModel.Make);
+            Debug.WriteLine(vehicleModelViewModel.MakeId);
+
             var vehicleModelToUpdate = _mapper.Map<VehicleModelViewModel, VehicleModel>(vehicleModelViewModel);
 
             var result = await _vehicleModelService.UpdateAsync(id, vehicleModelToUpdate);

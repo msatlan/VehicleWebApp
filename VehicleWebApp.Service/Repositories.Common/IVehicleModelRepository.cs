@@ -13,7 +13,7 @@ namespace VehicleWebApp.Service.Repositories.Common
         Task<PagedList<VehicleModel>> ListAsync(PagingModel pagingModel, SortingModel sortingModel, FilteringModel filteringModel);
         Task AddAsync(VehicleModel vehicleModel);
         Task<VehicleModel> FindById(Guid? Id);
-        void Update(VehicleModel vehicleModel);
-        void Remove(VehicleModel vehicleModel);
+        Task Update(VehicleModel vehicleModel);
+        Task Remove(VehicleModel vehicleModel);
     }
 }
