@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// Components
+import Routes from "./routes"
+
+
+class App extends Component {
+
+/*
+    postVehicleMake = () => {
+        Axios.post("https://localhost:5001/api/vehicleMakes", {
+            name:"vijekl iz reacta"
+        })
+        .then((result) => {
+            console.log(result);
+        })
+        .catch(error => {
+            console.log(error)
+        });
+    }
+
+    
+
+updateVehicleMake = () => {
+    Axios.put("https://localhost:5001/api/vehicleMakes/f658dc6f-5020-4e8e-1f16-08d6d8a0be", {
+    
+            name:"blaaaaaaa222"
+         
+    })
+    .then((result) => {
+        console.log(result);
+    })
+    .catch(error => {
+        console.log(error)
+    });
+}
+*/
+    render(){
+        return(
+            <BrowserRouter>
+                <Routes/>
+            </BrowserRouter>
+        )
+    }
 }
 
 export default App;
