@@ -2,16 +2,37 @@ import React, { Component } from 'react';
 
 class VehicleMakeView extends Component {
 
+
+
     render() {
+
         return (
             <div>
                 <header>
-                    <h3>NAME: {this.props.location.vehicle.name}</h3>
+                    <h3>Name: {this.props.location.vehicle.name}</h3>
                 </header>
                 <div>
-                    ID: {this.props.location.vehicle.id}<br/>
-                    ABBREVIATION: {this.props.location.vehicle.abbreviation}<br/>
-                    MODELS: {this.props.location.vehicle.models.join(", ")}<br/>
+                    Id: <input value={this.props.location.vehicle.id}
+                               style={{
+                                   width:"400px",
+                                   position: "absolute",
+                                   left: "200px"
+                               }}  
+                               readOnly/><br/>
+                    Abbreviation: <input value={this.props.location.vehicle.abbreviation} 
+                                         style={{
+                                            width:"400px",
+                                            position: "absolute",
+                                            left: "200px"
+                                         }}  
+                                         readOnly/><br/>
+                    Models: <input value={this.props.location.vehicle.models.join(", ")}
+                                   style={{
+                                        width:"400px",
+                                        position: "absolute",
+                                        left: "200px"
+                                    }}  
+                                    readOnly/><br/>
                 </div>
             </div>
         );
