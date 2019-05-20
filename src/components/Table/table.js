@@ -32,16 +32,25 @@ class Table extends Component {
                         <th></th>
                     </tr>
     
-                    {this.props.vehicleMakes.map((vehicle) => (
-                    <tr key={vehicle.id}>
-                        <td>{vehicle.name}</td>
-                        <td>{vehicle.id}</td>
-                        <td>{vehicle.abbreviation}</td>
-                        <td>{vehicle.models.join(", ")}</td>
+                    {this.props.content.map((object) => (
+                    <tr key={object.id}>
+                        <td>{object.name}</td>
+                        <td>{object.id}</td>
+                        <td>{object.abbreviation}</td>
+                        <td>{object.models.join(", ")}</td>
                         <td>
-                            <Link to={`/edit/${vehicle.name}`}><button>Edit</button></Link>
-                            <Link to={`/details/${vehicle.name}`}><button>Details</button></Link>
-                            <button onClick={() => this.delete(vehicle.id)}>Delete</button>
+                            <Link to={`/edit/${object.name}`}>
+                                <button>Edit</button>
+                            </Link>
+
+                            <Link to={{
+                                pathname: `/details/${object.name}`,
+                                vehicle: object
+                            }}> 
+                                <button>Details</button>
+                            </Link>
+                            
+                            <button onClick={() => this.delete(object.id)}>Delete</button>
                         </td>
                     </tr>
                     ))

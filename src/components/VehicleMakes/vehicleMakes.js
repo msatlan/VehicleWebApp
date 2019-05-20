@@ -10,7 +10,7 @@ class VehicleMakes extends Component {
     }
 
     getVehicleMakes = () => {
-        Axios.get("https://localhost:5001/api/vehicleMakes")
+        Axios.get("http://localhost:56920/api/vehicleMakes")
         .then((result) => {
             console.log(result);
 
@@ -29,7 +29,7 @@ class VehicleMakes extends Component {
     deleteVehicleMake = (id) => {
         console.log("delete vehicle make");
         
-        Axios.delete("https://localhost:5001/api/vehicleMakes", {
+        Axios.delete("http://localhost:56920/api/vehicleMakes", {
             params: {
                 id:`${id}`
             }
@@ -54,7 +54,7 @@ class VehicleMakes extends Component {
             <div>
                 {this.state.data.length === 0 
                 ? null
-                : <Table vehicleMakes={this.state.data}
+                : <Table content={this.state.data}
                          delete={this.deleteVehicleMake}/>
                 }
             </div>
