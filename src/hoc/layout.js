@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Header from "../components/Header/header"; 
+import Header from "../components/Common/header"; 
 
 const Layout = (props) => {
     return (

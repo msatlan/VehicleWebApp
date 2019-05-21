@@ -4,7 +4,7 @@ import Axios from "axios";
 import InputField from "./InputField";
 
 
-class VehicleMakeView extends Component {
+class DetailsView extends Component {
 
     state = {
         readOnly: false,
@@ -14,7 +14,7 @@ class VehicleMakeView extends Component {
     componentDidMount = () => {
         this.setState({
             readOnly: this.props.location.readOnly,
-            object: this.props.location.vehicle
+            object: this.props.location.object
         })
     }
 
@@ -77,4 +77,4 @@ class VehicleMakeView extends Component {
     }
 };
 
-export default VehicleMakeView;
+export default DetailsView;

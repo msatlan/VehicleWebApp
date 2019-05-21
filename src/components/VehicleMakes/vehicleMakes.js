@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import Axios from "axios";
 
-import Table from "../Table/table"
+import Table from "../Common/table"
 
 class VehicleMakes extends Component {
 
     state = {
+        type: "vehicleMakes",
         data:[]
     }
 
@@ -25,7 +26,7 @@ class VehicleMakes extends Component {
             console.log("error:",error)
         });  
     }
-    
+
     deleteVehicleMake = (id) => {
         console.log("delete vehicle make");
         
@@ -54,8 +55,9 @@ class VehicleMakes extends Component {
             <div>
                 {this.state.data.length === 0 
                 ? null
-                : <Table content={this.state.data}
-                         delete={this.deleteVehicleMake}/>
+                : <Table content={this.state}
+                         delete={this.deleteVehicleMake}
+                    />
                 }
             </div>
         )

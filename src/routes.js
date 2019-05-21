@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import Layout from "./hoc/layout";
 import Home from "./components/Home/home";
 import VehicleMakes from "./components/VehicleMakes/vehicleMakes";
-import VehicleMakeView from "./components/VehicleMakes/vehicleMakeView";
+import VehicleMakeView from "./components/Common/detailsView";
 import VehicleModels from "./components/VehicleModels/vehicleModels";
 
 const Routes = () => {
@@ -20,5 +20,5 @@ const Routes = () => {
         </Layout>
     );
 };
-//<Route path="/details" render={(props) => <VehicleMakeView {...props} vehicleMake={props.vehicleMake}/>}/>
+
 export default Routes;

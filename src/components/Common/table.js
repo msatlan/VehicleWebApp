@@ -28,28 +28,36 @@ class Table extends Component {
                         <th>Name</th>
                         <th>Id</th>
                         <th>Abbreviation</th>
-                        <th>Models</th>
+                        {this.props.content.type === "vehicleMakes" 
+                            ? <th>Models</th> 
+                            : <th>Make</th>
+                        }
                         <th></th>
                     </tr>
     
-                    {this.props.content.map((object) => (
+                    {this.props.content.data.map((object) => (
                     <tr key={object.id}>
                         <td>{object.name}</td>
                         <td>{object.id}</td>
                         <td>{object.abbreviation}</td>
-                        <td>{object.models.join(", ")}</td>
+
+                        {object.models !== null 
+                            ? <td>{object.models.join(", ")}</td> 
+                            : <td>{object.make}</td>
+                        }
+
                         <td>
                             <Link to={{
-                                pathname: `/edit/${object.name}`,
-                                vehicle: object,
+                                pathname: `edit/${this.props.content.type}/${object.name}`,
+                                object: object,
                                 readOnly: false   
                             }}>
                                 <button>Edit</button>
                             </Link>
 
                             <Link to={{
-                                pathname: `/details/${object.name}`,
-                                vehicle: object,
+                                pathname: `/details/${this.props.content.type}/${object.name}`,
+                                object: object,
                                 readOnly: true
                             }}> 
                                 <button>Details</button>
