@@ -1,39 +1,46 @@
 import React, { Component } from 'react';
 
+import ObjectPropertyView from "./ObjectPropertyView";
+
+
 class VehicleMakeView extends Component {
 
+    state = {
+        readOnly: false
+    }
 
+    componentDidMount = () => {
+        this.setState({
+            readOnly: this.props.location.readOnly
+        })
+    }
 
     render() {
-
         return (
             <div>
                 <header>
-                    <h3>Name: {this.props.location.vehicle.name}</h3>
+                    <h3>{this.state.readOnly ? <div>Details</div> : <div>Edit</div>}</h3>
                 </header>
-                <div>
-                    Id: <input value={this.props.location.vehicle.id}
-                               style={{
-                                   width:"400px",
-                                   position: "absolute",
-                                   left: "200px"
-                               }}  
-                               readOnly/><br/>
-                    Abbreviation: <input value={this.props.location.vehicle.abbreviation} 
-                                         style={{
-                                            width:"400px",
-                                            position: "absolute",
-                                            left: "200px"
-                                         }}  
-                                         readOnly/><br/>
-                    Models: <input value={this.props.location.vehicle.models.join(", ")}
-                                   style={{
-                                        width:"400px",
-                                        position: "absolute",
-                                        left: "200px"
-                                    }}  
-                                    readOnly/><br/>
-                </div>
+
+                <ObjectPropertyView title="Name"
+                                    value={this.props.location.vehicle.name}
+                                    readOnly={this.state.readOnly}
+                /><br/>
+                
+                <ObjectPropertyView title="Id"
+                                    value={this.props.location.vehicle.id}
+                                    readOnly={true}
+                /><br/>
+
+                <ObjectPropertyView title="Abbreviation"
+                                    value={this.props.location.vehicle.abbreviation}
+                                    readOnly={this.state.readOnly}
+                /><br/>
+
+                <ObjectPropertyView title="Models"
+                                    value={this.props.location.vehicle.models.join(", ")}
+                                    readOnly={true}
+                /><br/>
             </div>
         );
     }

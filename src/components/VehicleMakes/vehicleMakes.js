@@ -25,7 +25,7 @@ class VehicleMakes extends Component {
             console.log("error:",error)
         });  
     }
-
+    
     deleteVehicleMake = (id) => {
         console.log("delete vehicle make");
         

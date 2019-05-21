@@ -13,6 +13,7 @@ const Routes = () => {
             <Switch>
                 <Route path="/" exact component={Home}/>
                 <Route path="/details" component={VehicleMakeView}/>
+                <Route path="/edit" component={VehicleMakeView}/>
                 <Route path="/vehicleMakes" exact component={VehicleMakes}/>
                 <Route path="/vehicleModels" exact component={VehicleModels}/>
             </Switch>

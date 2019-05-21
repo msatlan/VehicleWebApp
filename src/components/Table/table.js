@@ -39,13 +39,18 @@ class Table extends Component {
                         <td>{object.abbreviation}</td>
                         <td>{object.models.join(", ")}</td>
                         <td>
-                            <Link to={`/edit/${object.name}`}>
+                            <Link to={{
+                                pathname: `/edit/${object.name}`,
+                                vehicle: object,
+                                readOnly: false   
+                            }}>
                                 <button>Edit</button>
                             </Link>
 
                             <Link to={{
                                 pathname: `/details/${object.name}`,
-                                vehicle: object
+                                vehicle: object,
+                                readOnly: true
                             }}> 
                                 <button>Details</button>
                             </Link>
